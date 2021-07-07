@@ -1,0 +1,119 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="18122" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="4QM-1Q-4rC">
+    <device id="retina6_1" orientation="portrait" appearance="light"/>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="18093"/>
+        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="System colors in document resources" minToolsVersion="11.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <scenes>
+        <!--View Controller-->
+        <scene sceneID="0wy-dq-u3a">
+            <objects>
+                <viewController id="4QM-1Q-4rC" customClass="RTMPViewController" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="xgU-9i-5Ms"/>
+                        <viewControllerLayoutGuide type="bottom" id="Oy9-zL-fud"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="KX8-MG-PNP">
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="hYv-A7-ggQ">
+                                <rect key="frame" x="191.5" y="786" width="31" height="30"/>
+                                <state key="normal" title="测试"/>
+                                <connections>
+                                    <action selector="test" destination="4QM-1Q-4rC" eventType="touchUpInside" id="jGT-Um-6lG"/>
+                                </connections>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="MKd-00-mqQ">
+                                <rect key="frame" x="87" y="111" width="62" height="30"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <state key="normal" title="开始推流"/>
+                                <connections>
+                                    <action selector="startCapture" destination="4QM-1Q-4rC" eventType="touchUpInside" id="Uqr-oj-WIA"/>
+                                </connections>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="8Fg-36-Ch1">
+                                <rect key="frame" x="265" y="111" width="62" height="30"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <state key="normal" title="结束推流"/>
+                                <connections>
+                                    <action selector="stopCapture" destination="4QM-1Q-4rC" eventType="touchUpInside" id="cUW-cD-XXY"/>
+                                </connections>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="U7Y-kX-WQO">
+                                <rect key="frame" x="49" y="786" width="49" height="30"/>
+                                <state key="normal" title="rtmplib"/>
+                                <connections>
+                                    <action selector="rtmp_lib:" destination="4QM-1Q-4rC" eventType="touchUpInside" id="9ZI-Nf-TTH"/>
+                                </connections>
+                            </button>
+                        </subviews>
+                        <viewLayoutGuide key="safeArea" id="0vL-pM-dil"/>
+                        <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                        <constraints>
+                            <constraint firstItem="hYv-A7-ggQ" firstAttribute="centerX" secondItem="0vL-pM-dil" secondAttribute="centerX" id="IhW-Qh-yfZ"/>
+                            <constraint firstItem="U7Y-kX-WQO" firstAttribute="leading" secondItem="0vL-pM-dil" secondAttribute="leading" constant="49" id="Kch-Lk-Uha"/>
+                            <constraint firstItem="U7Y-kX-WQO" firstAttribute="centerY" secondItem="hYv-A7-ggQ" secondAttribute="centerY" id="eRt-gR-Yan"/>
+                            <constraint firstItem="0vL-pM-dil" firstAttribute="bottom" secondItem="hYv-A7-ggQ" secondAttribute="bottom" constant="46" id="gtT-SV-mIu"/>
+                        </constraints>
+                    </view>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="DHW-rR-ShV" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-346" y="-24"/>
+        </scene>
+        <!--Stream Push Controller-->
+        <scene sceneID="Vgk-3S-3gi">
+            <objects>
+                <viewController storyboardIdentifier="streamPushController" id="QYi-3C-HCj" customClass="StreamPushController" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="5o9-C8-mnA">
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Z06-mF-CRG">
+                                <rect key="frame" x="54" y="383" width="104" height="30"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <color key="backgroundColor" red="0.80825700560000002" green="1" blue="0.76948834919999998" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <state key="normal" title="clickStream">
+                                    <color key="titleShadowColor" red="0.5" green="0.5" blue="0.5" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                </state>
+                                <connections>
+                                    <action selector="clickStream:" destination="QYi-3C-HCj" eventType="touchUpInside" id="GID-NR-QA5"/>
+                                </connections>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Nrd-Ku-Kl5">
+                                <rect key="frame" x="193" y="383" width="63" height="30"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <state key="normal" title="Streamer"/>
+                                <connections>
+                                    <action selector="streamer:" destination="QYi-3C-HCj" eventType="touchUpInside" id="c1K-aA-50k"/>
+                                </connections>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="OiY-bp-qm5">
+                                <rect key="frame" x="301" y="383" width="60" height="30"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <state key="normal" title="Receiver"/>
+                                <connections>
+                                    <action selector="receiver:" destination="QYi-3C-HCj" eventType="touchUpInside" id="56B-uI-osX"/>
+                                </connections>
+                            </button>
+                        </subviews>
+                        <viewLayoutGuide key="safeArea" id="K4y-L6-vhW"/>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                    </view>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="KsM-xZ-PYw" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-228" y="623"/>
+        </scene>
+    </scenes>
+    <resources>
+        <systemColor name="systemBackgroundColor">
+            <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+        </systemColor>
+    </resources>
+</document>
