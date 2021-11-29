@@ -7,6 +7,9 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		9655DDCC273C082700491380 /* AVVideoDemuxer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 9655DDCA273C082700491380 /* AVVideoDemuxer.cpp */; };
+		9655DDCD273C082700491380 /* AVVideoDecoderFF.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 9655DDCB273C082700491380 /* AVVideoDecoderFF.cpp */; };
+		9655DDD0273C085400491380 /* PullRTMP.mm in Sources */ = {isa = PBXBuildFile; fileRef = 9655DDCF273C085300491380 /* PullRTMP.mm */; };
 		E5C19564265DDB95003AC764 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = E5C19563265DDB95003AC764 /* AppDelegate.m */; };
 		E5C1956A265DDB95003AC764 /* CGLiveController.m in Sources */ = {isa = PBXBuildFile; fileRef = E5C19569265DDB95003AC764 /* CGLiveController.m */; };
 		E5C1956F265DDB97003AC764 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = E5C1956E265DDB97003AC764 /* Assets.xcassets */; };
@@ -55,6 +58,12 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		9655DDC8273C082600491380 /* AVVideoDemuxer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AVVideoDemuxer.h; sourceTree = "<group>"; };
+		9655DDC9273C082700491380 /* AVVideoDecoderFF.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AVVideoDecoderFF.h; sourceTree = "<group>"; };
+		9655DDCA273C082700491380 /* AVVideoDemuxer.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = AVVideoDemuxer.cpp; sourceTree = "<group>"; };
+		9655DDCB273C082700491380 /* AVVideoDecoderFF.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = AVVideoDecoderFF.cpp; sourceTree = "<group>"; };
+		9655DDCE273C085300491380 /* PullRTMP.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PullRTMP.h; sourceTree = "<group>"; };
+		9655DDCF273C085300491380 /* PullRTMP.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = PullRTMP.mm; sourceTree = "<group>"; };
 		E5C1955F265DDB95003AC764 /* CGLive.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = CGLive.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		E5C19562265DDB95003AC764 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
 		E5C19563265DDB95003AC764 /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
@@ -342,6 +351,12 @@
 		E5FE96FD265FB37E00548BB1 /* Controller */ = {
 			isa = PBXGroup;
 			children = (
+				9655DDCB273C082700491380 /* AVVideoDecoderFF.cpp */,
+				9655DDC9273C082700491380 /* AVVideoDecoderFF.h */,
+				9655DDCA273C082700491380 /* AVVideoDemuxer.cpp */,
+				9655DDC8273C082600491380 /* AVVideoDemuxer.h */,
+				9655DDCE273C085300491380 /* PullRTMP.h */,
+				9655DDCF273C085300491380 /* PullRTMP.mm */,
 				E5FE970B265FB37E00548BB1 /* output.flv */,
 				E5FE9708265FB37E00548BB1 /* RTMP.md */,
 				E5FE9702265FB37E00548BB1 /* rtmp.png */,
@@ -823,6 +838,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				E5FE9723265FB37E00548BB1 /* RTMPDumpController.m in Sources */,
+				9655DDCD273C082700491380 /* AVVideoDecoderFF.cpp in Sources */,
 				E5C1956A265DDB95003AC764 /* CGLiveController.m in Sources */,
 				E5FE971F265FB37E00548BB1 /* RTMPViewController.m in Sources */,
 				E5FE97ED265FB44100548BB1 /* CCVideoEncoder.m in Sources */,
@@ -832,6 +848,7 @@
 				E5FE9728265FB37E00548BB1 /* LiveVideoPacketQueue.cpp in Sources */,
 				E5FE97EC265FB44100548BB1 /* CCCaptureManager.m in Sources */,
 				E5C19564265DDB95003AC764 /* AppDelegate.m in Sources */,
+				9655DDD0273C085400491380 /* PullRTMP.mm in Sources */,
 				E5FE97F0265FB44100548BB1 /* CCAudioDecoder.m in Sources */,
 				E5FE9726265FB37E00548BB1 /* LiveConsumerThread.cpp in Sources */,
 				E5FE9727265FB37E00548BB1 /* LivePublisher.mm in Sources */,
@@ -841,6 +858,7 @@
 				E5FE97EB265FB44100548BB1 /* CCSystemCapture.m in Sources */,
 				E5FE972B265FB37E00548BB1 /* LiveVideoPublisher.cpp in Sources */,
 				E5FE97F2265FB44100548BB1 /* CCAVConfig.m in Sources */,
+				9655DDCC273C082700491380 /* AVVideoDemuxer.cpp in Sources */,
 				E5FE9729265FB37E00548BB1 /* LivePacketPool.cpp in Sources */,
 				E5FE97F1265FB44100548BB1 /* CCAudioEncoder.m in Sources */,
 				E5C19575265DDB97003AC764 /* main.m in Sources */,
@@ -980,7 +998,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = AA56KJRHUV;
+				DEVELOPMENT_TEAM = 2R34R5HG4N;
 				ENABLE_BITCODE = NO;
 				HEADER_SEARCH_PATHS = (
 					"\"$(SRCROOT)/CGLive/lib/ffmpeg/include\"",
@@ -1001,7 +1019,7 @@
 					"$(PROJECT_DIR)/CGLive/lib/librtmp/lib",
 					"$(PROJECT_DIR)/CGLive/lib/x264/lib",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.jason.codec;
+				PRODUCT_BUNDLE_IDENTIFIER = com.orderplus.chim;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
@@ -1013,7 +1031,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = AA56KJRHUV;
+				DEVELOPMENT_TEAM = 2R34R5HG4N;
 				ENABLE_BITCODE = NO;
 				HEADER_SEARCH_PATHS = (
 					"\"$(SRCROOT)/CGLive/lib/ffmpeg/include\"",
@@ -1034,7 +1052,7 @@
 					"$(PROJECT_DIR)/CGLive/lib/librtmp/lib",
 					"$(PROJECT_DIR)/CGLive/lib/x264/lib",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.jason.codec;
+				PRODUCT_BUNDLE_IDENTIFIER = com.orderplus.chim;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
