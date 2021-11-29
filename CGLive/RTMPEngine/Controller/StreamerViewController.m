@@ -31,6 +31,8 @@
 - (void)touchesBegan:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event {
     [self streamerAction];
 }
+
+//推流
 - (void)streamerAction {
     NSString *input_nsstr= [[NSBundle mainBundle] pathForResource:@"output" ofType:@"flv"];
 

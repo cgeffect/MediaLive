@@ -47,7 +47,7 @@
     int ret, i;
     int videoindex=-1;
     int frame_index=0;
-    in_filename  = "rtmp://192.168.61.136/live/livestream";
+    in_filename  = "rtmp://192.168.0.8/live/livestream";
     //in_filename  = "rtp://233.233.233.233:6666";
     //out_filename = "receive.ts";
     //out_filename = "receive.mkv";
@@ -96,8 +96,9 @@
             ret = AVERROR_UNKNOWN;
             goto end;
         }
+        AVCodecContext *in_codecCtx = in_stream->codec;
         //Copy the settings of AVCodecContext
-        ret = avcodec_copy_context(out_stream->codec, in_stream->codec);
+        ret = avcodec_copy_context(out_stream->codec, in_codecCtx);
         if (ret < 0) {
             printf( "Failed to copy context from input to output stream codec context\n");
             goto end;
@@ -210,7 +211,7 @@ end:
 //        return 1;
 //    }
 
-    in_filename  = "rtmp://192.168.63.52/live/livestream";
+    in_filename  = "rtmp://192.168.0.8/live/livestream";
     out_filename = _outFilePath.UTF8String;
 
     // 1. 打开输入

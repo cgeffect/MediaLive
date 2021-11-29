@@ -12,17 +12,24 @@
 #include <libavutil/time.h>
 #import "StreamerViewController.h"
 #import "ReceiverViewController.h"
+#import "PullRTMP.h"
 
 @interface StreamPushController ()
+{
+    PullRTMP *_pull;
+}
 @property (strong, nonatomic) NSString *output;
+
 @end
 
 @implementation StreamPushController
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    _output = @"rtmp://192.168.0.5/live/livestream";
+    _output = @"rtmp://192.168.0.8/live/livestream";
+    _pull = [[PullRTMP alloc] init];
 }
+//推流
 - (IBAction)streamer:(id)sender {
     StreamerViewController *vc = [[StreamerViewController alloc] init];
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
@@ -30,14 +37,18 @@
     });
 }
 
+//拉流
 - (IBAction)receiver:(id)sender {
     ReceiverViewController *vc = [[ReceiverViewController alloc] init];
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
-        [vc receiveAction];
+//        [vc receiveAction];
 //        [vc receive];
+        
+        [_pull loadPath];
     });
 }
 
+//推流
 - (IBAction)clickStream:(id)sender {
     
     char input_str_full[500]={0};
