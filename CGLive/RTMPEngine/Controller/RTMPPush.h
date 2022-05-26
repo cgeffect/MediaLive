@@ -31,7 +31,7 @@ private:
     int64_t startTime=0;
     const char *outPath;
     int writerHeader();
-    int writerPacket(AVPacket *pkt);
+    int writerPacket(AVPacket pkt);
     int writerTrailer();
     void stop();
 };

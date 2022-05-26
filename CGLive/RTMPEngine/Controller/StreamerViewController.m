@@ -34,7 +34,7 @@
 
 //推流
 - (void)streamerAction {
-    NSString *input_nsstr= [[NSBundle mainBundle] pathForResource:@"output" ofType:@"flv"];
+    NSString *input_nsstr= [[NSBundle mainBundle] pathForResource:@"source.200kbps.768x320" ofType:@"flv"];
 
     AVOutputFormat *ofmt = NULL;
     //Input AVFormatContext and Output AVFormatContext
@@ -54,7 +54,7 @@
     //in_filename  = "shanghai03_p.h264";
     in_filename = input_nsstr.UTF8String;
     
-    out_filename = "rtmp://192.168.0.5/live/livestream";//输出 URL（Output URL）[RTMP]
+    out_filename = "rtmp://172.16.184.26:1935/live/livestream";//输出 URL（Output URL）[RTMP]
     //out_filename = "rtp://233.233.233.233:6666";//输出 URL（Output URL）[UDP]
 
 //    av_register_all();
@@ -106,17 +106,7 @@
             ret = AVERROR_UNKNOWN;
             goto end;
         }
-        //old API
-//        //Copy the settings of AVCodecContext
-//        ret = avcodec_copy_context(out_stream->codec, in_stream->codec);
-//        if (ret < 0) {
-//            printf( "Failed to copy context from input to output stream codec context\n");
-//            goto end;
-//        }
-//        out_stream->codec->codec_tag = 0;
-//        if (ofmt_ctx->oformat->flags & AVFMT_GLOBALHEADER)
-//            out_stream->codec->flags |= AV_CODEC_FLAG_GLOBAL_HEADER;
-        
+
         //new API
         AVCodecContext *codec_ctx = avcodec_alloc_context3(in_codec);
         //把in_stream流的参数copy到codec_ctx

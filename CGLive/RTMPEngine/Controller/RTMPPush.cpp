@@ -111,86 +111,35 @@ int RTMPPush::initRTMP(const char *outPath, const char *filePath) {
         }
     }
 
-    ret = writerHeader();
-    if (ret < 0) {
-        printf( "Error occurred when opening output URL\n");
-        stop();
-        return -1;
-    }
-    
     readPacket();
     return 0;
 }
 
 void RTMPPush::readPacket() {
     int ret;
+    ret = writerHeader();
+    if (ret < 0) {
+        printf( "Error occurred when opening output URL\n");
+        stop();
+        return;
+    }
     
     startTime = av_gettime();
-    AVPacket pkt = {};
 
     while (true) {
-        AVStream *in_stream, *out_stream;
-
+        //每次都用新的, 重复使用同一个会偶现av_interleaved_write_frame卡死
+        AVPacket pkt = {0};
         ret = av_read_frame(ifmtCtx, &pkt);
         if (ret < 0) {
             break;
         }
-        //FIX：No PTS (Example: Raw H.264)
-        //Simple Write PTS
-        if(pkt.pts==AV_NOPTS_VALUE){
-            //Write PTS
-            AVRational time_base1=ifmtCtx->streams[videoIndex]->time_base;
-            //Duration between 2 frames (us)
-            int64_t calc_duration=(double)AV_TIME_BASE/av_q2d(ifmtCtx->streams[videoIndex]->r_frame_rate);
-            //Parameters
-            pkt.pts=(double)(frameIndex*calc_duration)/(double)(av_q2d(time_base1)*AV_TIME_BASE);
-            pkt.dts=pkt.pts;
-            pkt.duration=(double)calc_duration/(double)(av_q2d(time_base1)*AV_TIME_BASE);
-        }
-        //Important:Delay
-        if(pkt.stream_index==videoIndex){
-            AVRational time_base=ifmtCtx->streams[videoIndex]->time_base;
-            AVRational time_base_q={1,AV_TIME_BASE};
-            int64_t pts_time = av_rescale_q(pkt.dts, time_base, time_base_q);
-            int64_t now_time = av_gettime() - startTime;
-            if (pts_time > now_time) {
-                av_usleep((int)(pts_time - now_time));
-            }
-        }
-        
-        in_stream  = ifmtCtx->streams[pkt.stream_index];
-        out_stream = ofmtCtx->streams[pkt.stream_index];
-        /* copy packet */
-        //Convert PTS/DTS
-        pkt.pts = av_rescale_q_rnd(pkt.pts, in_stream->time_base, out_stream->time_base, AVRounding(AV_ROUND_NEAR_INF|AV_ROUND_PASS_MINMAX));
-        pkt.dts = av_rescale_q_rnd(pkt.dts, in_stream->time_base, out_stream->time_base, AVRounding(AV_ROUND_NEAR_INF|AV_ROUND_PASS_MINMAX));
-        pkt.duration = av_rescale_q(pkt.duration, in_stream->time_base, out_stream->time_base);
-        pkt.pos = -1;
-        //Print to Screen
-        if(pkt.stream_index==videoIndex){
-            printf("Send %8d %8lld video frames to output %s\n",frameIndex, pkt.pts, outPath);
-            frameIndex++;
-        }
-        if (pkt.stream_index == audioIndex) {
-            printf("Send %8d audio frames to output %s\n",pcmIndex, outPath);
-            pcmIndex++;
-        }
-        //ret = av_write_frame(ofmt_ctx, &pkt);
-        ret = av_interleaved_write_frame(ofmtCtx, &pkt);
-        
+
+        ret = writerPacket(pkt);
         if (ret < 0) {
             printf( "Error muxing packet\n");
             break;
         }
-        
-//        av_free_packet(&pkt);
-        av_packet_unref(&pkt);
-//        ret = writerPacket(pkt);
-////        if (ret < 0) {
-////            printf( "Error muxing packet\n");
-////            break;
-////        }
-//        av_packet_unref(pkt);
+//        av_packet_unref(&pkt);
     }
 //    av_packet_free(&pkt);
     writerTrailer();
@@ -211,54 +160,55 @@ int RTMPPush::writerTrailer() {
     return ret;
 }
 
-int RTMPPush::writerPacket(AVPacket *pkt) {
+int RTMPPush::writerPacket(AVPacket pkt) {
     int ret = 0;
+    AVStream *in_stream, *out_stream;
+
     //FIX：No PTS (Example: Raw H.264)
     //Simple Write PTS
-    if(pkt->pts==AV_NOPTS_VALUE){
+    if(pkt.pts==AV_NOPTS_VALUE){
         //Write PTS
         AVRational time_base1=ifmtCtx->streams[videoIndex]->time_base;
         //Duration between 2 frames (us)
         int64_t calc_duration=(double)AV_TIME_BASE/av_q2d(ifmtCtx->streams[videoIndex]->r_frame_rate);
         //Parameters
-        pkt->pts=(double)(frameIndex*calc_duration)/(double)(av_q2d(time_base1)*AV_TIME_BASE);
-        pkt->dts=pkt->pts;
-        pkt->duration=(double)calc_duration/(double)(av_q2d(time_base1)*AV_TIME_BASE);
+        pkt.pts=(double)(frameIndex*calc_duration)/(double)(av_q2d(time_base1)*AV_TIME_BASE);
+        pkt.dts=pkt.pts;
+        pkt.duration=(double)calc_duration/(double)(av_q2d(time_base1)*AV_TIME_BASE);
     }
     //Important:Delay
-    if(pkt->stream_index==videoIndex){
+    if(pkt.stream_index==videoIndex){
         AVRational time_base=ifmtCtx->streams[videoIndex]->time_base;
         AVRational time_base_q={1,AV_TIME_BASE};
-        int64_t pts_time = av_rescale_q(pkt->dts, time_base, time_base_q);
+        int64_t pts_time = av_rescale_q(pkt.dts, time_base, time_base_q);
         int64_t now_time = av_gettime() - startTime;
         if (pts_time > now_time) {
-            printf("sleep %lld", pts_time - now_time);
             av_usleep((int)(pts_time - now_time));
         }
     }
-    AVStream *in_stream, *out_stream;
 
-    in_stream  = ifmtCtx->streams[pkt->stream_index];
-    out_stream = ofmtCtx->streams[pkt->stream_index];
+    in_stream  = ifmtCtx->streams[pkt.stream_index];
+    out_stream = ofmtCtx->streams[pkt.stream_index];
     /* copy packet */
     //Convert PTS/DTS
-    pkt->pts = av_rescale_q_rnd(pkt->pts, in_stream->time_base, out_stream->time_base, AVRounding(AV_ROUND_NEAR_INF|AV_ROUND_PASS_MINMAX));
-    pkt->dts = av_rescale_q_rnd(pkt->dts, in_stream->time_base, out_stream->time_base, AVRounding(AV_ROUND_NEAR_INF|AV_ROUND_PASS_MINMAX));
-    pkt->duration = av_rescale_q(pkt->duration, in_stream->time_base, out_stream->time_base);
-    pkt->pos = -1;
+    pkt.pts = av_rescale_q_rnd(pkt.pts, in_stream->time_base, out_stream->time_base, AVRounding(AV_ROUND_NEAR_INF|AV_ROUND_PASS_MINMAX));
+    pkt.dts = av_rescale_q_rnd(pkt.dts, in_stream->time_base, out_stream->time_base, AVRounding(AV_ROUND_NEAR_INF|AV_ROUND_PASS_MINMAX));
+    pkt.duration = av_rescale_q(pkt.duration, in_stream->time_base, out_stream->time_base);
+    pkt.pos = -1;
     //Print to Screen
-    if(pkt->stream_index==videoIndex){
-        printf("send %8d %8lld video frames to output %s\n",frameIndex, pkt->pts, outPath);
+    if(pkt.stream_index==videoIndex){
+        printf("Send %8d %8lld video frames to output %s\n",frameIndex, pkt.pts, outPath);
         frameIndex++;
     }
-    if (pkt->stream_index == audioIndex) {
-        printf("send %8d audio frames to output %s\n",pcmIndex, outPath);
+    if (pkt.stream_index == audioIndex) {
+        printf("Send %8d audio frames to output %s\n",pcmIndex, outPath);
         pcmIndex++;
     }
     //ret = av_write_frame(ofmt_ctx, &pkt);
-    ret = av_interleaved_write_frame(ofmtCtx, pkt);
+    ret = av_interleaved_write_frame(ofmtCtx, &pkt);
+
     if (ret < 0) {
-        printf("av_interleaved_write_frame error");
+        printf( "Error muxing packet\n");
     }
     return ret;
 }

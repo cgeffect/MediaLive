@@ -26,7 +26,7 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    _output = @"rtmp://192.168.0.8/live/livestream";
+    _output = @"rtmp://172.16.184.26:1935/live/livestream";
     _pull = [[PullRTMP alloc] init];
 }
 //推流
@@ -43,31 +43,26 @@
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
 //        [vc receiveAction];
 //        [vc receive];
-        
         [_pull loadPath];
     });
+}
+- (IBAction)rtmp:(id)sender {
+    dispatch_async(dispatch_get_global_queue(0, 0), ^{
+        PullRTMP *_pull = [[PullRTMP alloc] init];
+        [_pull push];
+    });
+
 }
 
 //推流
 - (IBAction)clickStream:(id)sender {
-    
-    char input_str_full[500]={0};
-    char output_str_full[500]={0};
-    
-    NSString *input_nsstr= [[NSBundle mainBundle] pathForResource:@"output" ofType:@"flv"];
-    
-    sprintf(input_str_full,"%s",[input_nsstr UTF8String]);
-    sprintf(output_str_full,"%s",[_output UTF8String]);
-    
-    printf("Input Path:%s\n",input_str_full);
-    printf("Output Path:%s\n",output_str_full);
+    NSString *input_nsstr= [[NSBundle mainBundle] pathForResource:@"source.200kbps.768x320" ofType:@"flv"];
     
     AVOutputFormat *ofmt = NULL;
     //Input AVFormatContext and Output AVFormatContext
     AVFormatContext *ifmt_ctx = NULL, *ofmt_ctx = NULL;
     AVPacket pkt = {0};
-    char in_filename[500]={0};
-    char out_filename[500]={0};
+    const char *in_filename, *out_filename;
     int ret, i;
     int videoindex=-1;
     int frame_index=0;
@@ -79,11 +74,10 @@
     //in_filename  = "cuc_ieschool.flv";//Input file URL
     //out_filename = "rtmp://localhost/publishlive/livestream";//Output URL[RTMP]
     //out_filename = "rtp://233.233.233.233:6666";//Output URL[UDP]
-    
-    strcpy(in_filename,input_str_full);
-    strcpy(out_filename,output_str_full);
-    
-//    av_register_all();
+    in_filename = input_nsstr.UTF8String;
+    out_filename = "rtmp://172.16.184.26:1935/live/livestream";
+
+    //    av_register_all();
     //Network
     avformat_network_init();
     //Input
@@ -99,7 +93,9 @@
     printf( "out_filename: %s\n", out_filename);
     
     for(i=0; i<ifmt_ctx->nb_streams; i++) {
-        if(ifmt_ctx->streams[i]->codecpar->codec_type==AVMEDIA_TYPE_VIDEO){
+        AVStream *stream = ifmt_ctx->streams[i];
+        AVCodecParameters *param = stream->codecpar;
+        if(param->codec_type==AVMEDIA_TYPE_VIDEO){
             videoindex=i;
             break;
         }
@@ -131,6 +127,9 @@
     for (i = 0; i < ifmt_ctx->nb_streams; i++) {
         
         AVStream *in_stream = ifmt_ctx->streams[i];
+        if(in_stream->codecpar->codec_type != AVMEDIA_TYPE_VIDEO && in_stream->codecpar->codec_type != AVMEDIA_TYPE_AUDIO) {
+            continue;
+        }
         AVCodec *in_codec = avcodec_find_decoder(in_stream->codecpar->codec_id);
         AVStream *out_stream = avformat_new_stream(ofmt_ctx, NULL);
         if (!out_stream) {
@@ -138,17 +137,6 @@
             ret = AVERROR_UNKNOWN;
             goto end;
         }
-//        ret = avcodec_parameters_copy(out_stream->codecpar, in_stream->codecpar);
-
-//        ret = avcodec_copy_context(out_stream->codec, in_stream->codec);
-//        if (ret < 0) {
-//            printf( "Failed to copy context from input to output stream codec context\n");
-//            goto end;
-//        }
-//        out_stream->codec->codec_tag = 0;
-//        if (ofmt_ctx->oformat->flags & AVFMT_GLOBALHEADER)
-//            out_stream->codec->flags |= AV_CODEC_FLAG_GLOBAL_HEADER;
-        
         AVCodecContext *codec_ctx = avcodec_alloc_context3(in_codec);
         ret = avcodec_parameters_to_context(codec_ctx, in_stream->codecpar);
         if (ret < 0){
@@ -225,7 +213,7 @@
         pkt.pos = -1;
         //Print to Screen
         if(pkt.stream_index==videoindex){
-            printf("Send %8d video frames to output %s\n",frame_index,_output.UTF8String);
+            printf("Send %8d %8lld video frames to output %s\n",frame_index, pkt.pts, _output.UTF8String);
             frame_index++;
         }
         if (pkt.stream_index == audioIndex) {

@@ -11,6 +11,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface PullRTMP : NSObject
 - (void)loadPath;
+- (void)push;
 @end
 
 NS_ASSUME_NONNULL_END

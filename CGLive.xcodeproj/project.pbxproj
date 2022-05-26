@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		96365FA7283F59C1007E8A96 /* source.200kbps.768x320.flv in Resources */ = {isa = PBXBuildFile; fileRef = 96365FA6283F59C0007E8A96 /* source.200kbps.768x320.flv */; };
+		96365FAC283F600D007E8A96 /* RTMPPush.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 96365FAA283F600D007E8A96 /* RTMPPush.cpp */; };
 		9655DDCC273C082700491380 /* AVVideoDemuxer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 9655DDCA273C082700491380 /* AVVideoDemuxer.cpp */; };
 		9655DDCD273C082700491380 /* AVVideoDecoderFF.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 9655DDCB273C082700491380 /* AVVideoDecoderFF.cpp */; };
 		9655DDD0273C085400491380 /* PullRTMP.mm in Sources */ = {isa = PBXBuildFile; fileRef = 9655DDCF273C085300491380 /* PullRTMP.mm */; };
@@ -26,7 +28,6 @@
 		E5FE9722265FB37E00548BB1 /* RTMP.md in Resources */ = {isa = PBXBuildFile; fileRef = E5FE9708265FB37E00548BB1 /* RTMP.md */; };
 		E5FE9723265FB37E00548BB1 /* RTMPDumpController.m in Sources */ = {isa = PBXBuildFile; fileRef = E5FE9709265FB37E00548BB1 /* RTMPDumpController.m */; };
 		E5FE9724265FB37E00548BB1 /* RTMP.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = E5FE970A265FB37E00548BB1 /* RTMP.storyboard */; };
-		E5FE9725265FB37E00548BB1 /* output.flv in Resources */ = {isa = PBXBuildFile; fileRef = E5FE970B265FB37E00548BB1 /* output.flv */; };
 		E5FE9726265FB37E00548BB1 /* LiveConsumerThread.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E5FE970D265FB37E00548BB1 /* LiveConsumerThread.cpp */; };
 		E5FE9727265FB37E00548BB1 /* LivePublisher.mm in Sources */ = {isa = PBXBuildFile; fileRef = E5FE970E265FB37E00548BB1 /* LivePublisher.mm */; };
 		E5FE9728265FB37E00548BB1 /* LiveVideoPacketQueue.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E5FE970F265FB37E00548BB1 /* LiveVideoPacketQueue.cpp */; };
@@ -58,6 +59,9 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		96365FA6283F59C0007E8A96 /* source.200kbps.768x320.flv */ = {isa = PBXFileReference; lastKnownFileType = file; path = source.200kbps.768x320.flv; sourceTree = "<group>"; };
+		96365FAA283F600D007E8A96 /* RTMPPush.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = RTMPPush.cpp; sourceTree = "<group>"; };
+		96365FAB283F600D007E8A96 /* RTMPPush.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = RTMPPush.h; sourceTree = "<group>"; };
 		9655DDC8273C082600491380 /* AVVideoDemuxer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AVVideoDemuxer.h; sourceTree = "<group>"; };
 		9655DDC9273C082700491380 /* AVVideoDecoderFF.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AVVideoDecoderFF.h; sourceTree = "<group>"; };
 		9655DDCA273C082700491380 /* AVVideoDemuxer.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = AVVideoDemuxer.cpp; sourceTree = "<group>"; };
@@ -92,7 +96,6 @@
 		E5FE9708265FB37E00548BB1 /* RTMP.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; path = RTMP.md; sourceTree = "<group>"; };
 		E5FE9709265FB37E00548BB1 /* RTMPDumpController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RTMPDumpController.m; sourceTree = "<group>"; };
 		E5FE970A265FB37E00548BB1 /* RTMP.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = RTMP.storyboard; sourceTree = "<group>"; };
-		E5FE970B265FB37E00548BB1 /* output.flv */ = {isa = PBXFileReference; lastKnownFileType = file; path = output.flv; sourceTree = "<group>"; };
 		E5FE970D265FB37E00548BB1 /* LiveConsumerThread.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = LiveConsumerThread.cpp; sourceTree = "<group>"; };
 		E5FE970E265FB37E00548BB1 /* LivePublisher.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = LivePublisher.mm; sourceTree = "<group>"; };
 		E5FE970F265FB37E00548BB1 /* LiveVideoPacketQueue.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = LiveVideoPacketQueue.cpp; sourceTree = "<group>"; };
@@ -351,13 +354,15 @@
 		E5FE96FD265FB37E00548BB1 /* Controller */ = {
 			isa = PBXGroup;
 			children = (
+				96365FA6283F59C0007E8A96 /* source.200kbps.768x320.flv */,
 				9655DDCB273C082700491380 /* AVVideoDecoderFF.cpp */,
 				9655DDC9273C082700491380 /* AVVideoDecoderFF.h */,
 				9655DDCA273C082700491380 /* AVVideoDemuxer.cpp */,
 				9655DDC8273C082600491380 /* AVVideoDemuxer.h */,
 				9655DDCE273C085300491380 /* PullRTMP.h */,
 				9655DDCF273C085300491380 /* PullRTMP.mm */,
-				E5FE970B265FB37E00548BB1 /* output.flv */,
+				96365FAA283F600D007E8A96 /* RTMPPush.cpp */,
+				96365FAB283F600D007E8A96 /* RTMPPush.h */,
 				E5FE9708265FB37E00548BB1 /* RTMP.md */,
 				E5FE9702265FB37E00548BB1 /* rtmp.png */,
 				E5FE9703265FB37E00548BB1 /* RTMPDumpController.h */,
@@ -820,12 +825,12 @@
 			buildActionMask = 2147483647;
 			files = (
 				E5FE97EF265FB44100548BB1 /* AVCodecNote.md in Resources */,
+				96365FA7283F59C1007E8A96 /* source.200kbps.768x320.flv in Resources */,
 				E5FE9722265FB37E00548BB1 /* RTMP.md in Resources */,
 				E5FE9724265FB37E00548BB1 /* RTMP.storyboard in Resources */,
 				E5C19572265DDB97003AC764 /* LaunchScreen.storyboard in Resources */,
 				E5C1956F265DDB97003AC764 /* Assets.xcassets in Resources */,
 				E5FE9720265FB37E00548BB1 /* rtmp.png in Resources */,
-				E5FE9725265FB37E00548BB1 /* output.flv in Resources */,
 				E5FE971B265FB37E00548BB1 /* cuc_ieschool.h264 in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -850,6 +855,7 @@
 				E5C19564265DDB95003AC764 /* AppDelegate.m in Sources */,
 				9655DDD0273C085400491380 /* PullRTMP.mm in Sources */,
 				E5FE97F0265FB44100548BB1 /* CCAudioDecoder.m in Sources */,
+				96365FAC283F600D007E8A96 /* RTMPPush.cpp in Sources */,
 				E5FE9726265FB37E00548BB1 /* LiveConsumerThread.cpp in Sources */,
 				E5FE9727265FB37E00548BB1 /* LivePublisher.mm in Sources */,
 				E5FE971C265FB37E00548BB1 /* simplest_librtmp_send264.cpp in Sources */,
@@ -998,7 +1004,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = 2R34R5HG4N;
+				DEVELOPMENT_TEAM = 9ZSR9Q37TC;
 				ENABLE_BITCODE = NO;
 				HEADER_SEARCH_PATHS = (
 					"\"$(SRCROOT)/CGLive/lib/ffmpeg/include\"",
@@ -1019,7 +1025,7 @@
 					"$(PROJECT_DIR)/CGLive/lib/librtmp/lib",
 					"$(PROJECT_DIR)/CGLive/lib/x264/lib",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.orderplus.chim;
+				PRODUCT_BUNDLE_IDENTIFIER = com.zhenqu.MediaEngineDemo;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
@@ -1031,7 +1037,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = 2R34R5HG4N;
+				DEVELOPMENT_TEAM = 9ZSR9Q37TC;
 				ENABLE_BITCODE = NO;
 				HEADER_SEARCH_PATHS = (
 					"\"$(SRCROOT)/CGLive/lib/ffmpeg/include\"",
@@ -1052,7 +1058,7 @@
 					"$(PROJECT_DIR)/CGLive/lib/librtmp/lib",
 					"$(PROJECT_DIR)/CGLive/lib/x264/lib",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.orderplus.chim;
+				PRODUCT_BUNDLE_IDENTIFIER = com.zhenqu.MediaEngineDemo;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};

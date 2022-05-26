@@ -7,6 +7,7 @@
 
 #import "PullRTMP.h"
 #import "AVVideoDecoderFF.h"
+#include "RTMPPush.h"
 
 @interface PullRTMP ()
 {
@@ -32,4 +33,11 @@
         usleep(30 * 1000);
     }
 }
+
+- (void)push {
+    NSString *input_nsstr= [[NSBundle mainBundle] pathForResource:@"source.200kbps.768x320" ofType:@"flv"];
+    mogic::RTMPPush push;
+    push.initRTMP("rtmp://172.16.184.26:1935/live/livestream", input_nsstr.UTF8String);
+}
+
 @end

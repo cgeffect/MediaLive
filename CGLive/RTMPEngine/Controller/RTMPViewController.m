@@ -63,7 +63,7 @@
     CCVideoConfig *config = [CCVideoConfig defaultConifg];
     //rtmp://192.168.61.136/live/livestream
     //rtmp://192.168.0.5/live/livestream
-    _livePublisher = [[LivePublisher alloc] initWithRTMPURL:@"rtmp://192.168.0.5/live/livestream" videoWidth:config.width videoHeight:config.height videoFrameRate:config.fps videoBitRate:config.width * config.height * 4 audioSampleRate:44100 audioChannels:1 audioBitRate:6400 audioCodecName:@"libfdk_aac"];
+    _livePublisher = [[LivePublisher alloc] initWithRTMPURL:@"rtmp://172.16.184.26:1935/live/livestream" videoWidth:config.width videoHeight:config.height videoFrameRate:config.fps videoBitRate:config.width * config.height * 4 audioSampleRate:44100 audioChannels:1 audioBitRate:6400 audioCodecName:@"libfdk_aac"];
     _livePublisher.delegate = self;
     
      [self.capture start];
