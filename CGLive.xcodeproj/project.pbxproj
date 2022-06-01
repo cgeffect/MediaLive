@@ -14,6 +14,7 @@
 		9655DDD0273C085400491380 /* PullRTMP.mm in Sources */ = {isa = PBXBuildFile; fileRef = 9655DDCF273C085300491380 /* PullRTMP.mm */; };
 		96695A102840ACFA0059506F /* RTMPPushLive.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 96695A0E2840ACFA0059506F /* RTMPPushLive.cpp */; };
 		96695A172840ADE80059506F /* LogUtils.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 96695A162840ADE80059506F /* LogUtils.cpp */; };
+		96C4EA0F28470121001A85BD /* FFAVDemuxer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 96C4EA0E28470121001A85BD /* FFAVDemuxer.cpp */; };
 		E5C19564265DDB95003AC764 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = E5C19563265DDB95003AC764 /* AppDelegate.m */; };
 		E5C1956A265DDB95003AC764 /* CGLiveController.m in Sources */ = {isa = PBXBuildFile; fileRef = E5C19569265DDB95003AC764 /* CGLiveController.m */; };
 		E5C1956F265DDB97003AC764 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = E5C1956E265DDB97003AC764 /* Assets.xcassets */; };
@@ -76,6 +77,8 @@
 		96695A132840ADE80059506F /* MogicDefines.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MogicDefines.h; sourceTree = "<group>"; };
 		96695A152840ADE80059506F /* LogUtils.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LogUtils.h; sourceTree = "<group>"; };
 		96695A162840ADE80059506F /* LogUtils.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = LogUtils.cpp; sourceTree = "<group>"; };
+		96C4EA0D28470121001A85BD /* FFAVDemuxer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FFAVDemuxer.h; sourceTree = "<group>"; };
+		96C4EA0E28470121001A85BD /* FFAVDemuxer.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = FFAVDemuxer.cpp; sourceTree = "<group>"; };
 		E5C1955F265DDB95003AC764 /* CGLive.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = CGLive.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		E5C19562265DDB95003AC764 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
 		E5C19563265DDB95003AC764 /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
@@ -317,6 +320,22 @@
 			path = util;
 			sourceTree = "<group>";
 		};
+		96C4EA102847013E001A85BD /* live */ = {
+			isa = PBXGroup;
+			children = (
+				96C4EA0E28470121001A85BD /* FFAVDemuxer.cpp */,
+				96C4EA0D28470121001A85BD /* FFAVDemuxer.h */,
+				9655DDCE273C085300491380 /* PullRTMP.h */,
+				9655DDCF273C085300491380 /* PullRTMP.mm */,
+				E5FE9708265FB37E00548BB1 /* RTMP.md */,
+				96365FAA283F600D007E8A96 /* RTMPPush.cpp */,
+				96365FAB283F600D007E8A96 /* RTMPPush.h */,
+				96695A0E2840ACFA0059506F /* RTMPPushLive.cpp */,
+				96695A0F2840ACFA0059506F /* RTMPPushLive.h */,
+			);
+			path = live;
+			sourceTree = "<group>";
+		};
 		E5C19556265DDB95003AC764 = {
 			isa = PBXGroup;
 			children = (
@@ -379,6 +398,7 @@
 		E5FE96FD265FB37E00548BB1 /* Controller */ = {
 			isa = PBXGroup;
 			children = (
+				96C4EA102847013E001A85BD /* live */,
 				96695A112840ADE80059506F /* MogicDefines.h */,
 				96695A142840ADE80059506F /* util */,
 				96695A122840ADE80059506F /* video */,
@@ -387,13 +407,6 @@
 				9655DDC9273C082700491380 /* AVVideoDecoderFF.h */,
 				9655DDCA273C082700491380 /* AVVideoDemuxer.cpp */,
 				9655DDC8273C082600491380 /* AVVideoDemuxer.h */,
-				9655DDCE273C085300491380 /* PullRTMP.h */,
-				9655DDCF273C085300491380 /* PullRTMP.mm */,
-				96365FAA283F600D007E8A96 /* RTMPPush.cpp */,
-				96365FAB283F600D007E8A96 /* RTMPPush.h */,
-				96695A0E2840ACFA0059506F /* RTMPPushLive.cpp */,
-				96695A0F2840ACFA0059506F /* RTMPPushLive.h */,
-				E5FE9708265FB37E00548BB1 /* RTMP.md */,
 				E5FE9702265FB37E00548BB1 /* rtmp.png */,
 				E5FE9703265FB37E00548BB1 /* RTMPDumpController.h */,
 				E5FE9709265FB37E00548BB1 /* RTMPDumpController.m */,
@@ -824,7 +837,7 @@
 		E5C19557265DDB95003AC764 /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastUpgradeCheck = 1250;
+				LastUpgradeCheck = 1340;
 				TargetAttributes = {
 					E5C1955E265DDB95003AC764 = {
 						CreatedOnToolsVersion = 12.5;
@@ -873,6 +886,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				E5FE9723265FB37E00548BB1 /* RTMPDumpController.m in Sources */,
+				96C4EA0F28470121001A85BD /* FFAVDemuxer.cpp in Sources */,
 				9655DDCD273C082700491380 /* AVVideoDecoderFF.cpp in Sources */,
 				E5C1956A265DDB95003AC764 /* CGLiveController.m in Sources */,
 				E5FE971F265FB37E00548BB1 /* RTMPViewController.m in Sources */,
@@ -1045,7 +1059,7 @@
 					"\"$(SRCROOT)/CGLive/lib/x264/include\"",
 				);
 				INFOPLIST_FILE = CGLive/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -1078,7 +1092,7 @@
 					"\"$(SRCROOT)/CGLive/lib/x264/include\"",
 				);
 				INFOPLIST_FILE = CGLive/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
