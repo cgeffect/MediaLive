@@ -19,7 +19,8 @@ namespace mogic {
 class RTMPPush {
 public:
     int initRTMP(const char *outPath, const char *filePath);
-    void readPacket();
+    int pushPacket(AVPacket *pkt);
+    void stopPush();
 private:
     int videoIndex = -1;
     int frameIndex = 0;
@@ -28,8 +29,9 @@ private:
     //Input AVFormatContext and Output AVFormatContext
     AVFormatContext *ifmtCtx = NULL, *ofmtCtx = NULL;
     AVOutputFormat *ofmt = NULL;
-    int64_t startTime=0;
+    int64_t startTime = 0;
     const char *outPath;
+    void readPacket();
     int writerHeader();
     int writerPacket(AVPacket pkt);
     int writerTrailer();
