@@ -51,7 +51,6 @@
         PullRTMP *_pull = [[PullRTMP alloc] init];
         [_pull push];
     });
-
 }
 
 //推流

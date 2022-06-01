@@ -6,8 +6,10 @@
 //
 
 #include "RTMPPush.h"
+#include "MogicDefines.h"
 
 namespace mogic {
+
 int RTMPPush::initRTMP(const char *outPath, const char *filePath) {
     this->outPath = outPath;
     int ret;
@@ -15,42 +17,35 @@ int RTMPPush::initRTMP(const char *outPath, const char *filePath) {
     avformat_network_init();
     //Input
     if ((ret = avformat_open_input(&ifmtCtx, filePath, 0, 0)) < 0) {
-        printf( "Could not open input file.");
+        MOGIC_DLOG("Could not open input file %s", filePath);
         stop();
         return -1;
     }
-    printf( "in_filename: %s\n", filePath);
     if ((ret = avformat_find_stream_info(ifmtCtx, 0)) < 0) {
-        printf( "Failed to retrieve input stream information");
+        MOGIC_DLOG( "Failed to retrieve input stream information");
         stop();
         return -1;
     }
-    printf( "out_filename: %s\n", outPath);
     
-    for(int i = 0; i < ifmtCtx->nb_streams; i++) {
+    for(unsigned int i = 0; i < ifmtCtx->nb_streams; i++) {
         AVStream *stream = ifmtCtx->streams[i];
         AVCodecParameters *param = stream->codecpar;
         if (param->codec_type == AVMEDIA_TYPE_VIDEO) {
-            videoIndex=i;
-            break;
+            videoIndex = i;
         }
-    }
-    for(int i = 0; i < ifmtCtx->nb_streams; i++) {
-        if (ifmtCtx->streams[i]->codecpar->codec_type == AVMEDIA_TYPE_AUDIO) {
+        if (param->codec_type == AVMEDIA_TYPE_AUDIO) {
             audioIndex = i;
-            break;
         }
     }
     
     av_dump_format(ifmtCtx, 0, filePath, 0);
 
     //Output
-    
     avformat_alloc_output_context2(&ofmtCtx, NULL, "flv", outPath); //RTMP
     //avformat_alloc_output_context2(&ofmt_ctx, NULL, "mpegts", out_filename);//UDP
     
     if (!ofmtCtx) {
-        printf( "Could not create output context\n");
+        MOGIC_DLOG( "Could not create output context");
         ret = AVERROR_UNKNOWN;
         stop();
         return -1;
@@ -58,17 +53,17 @@ int RTMPPush::initRTMP(const char *outPath, const char *filePath) {
     
     ofmt = ofmtCtx->oformat;
     
-    printf("name:%s, long_name:%s, mime_type:%s, extensions:%s\n", ofmt->name, ofmt->long_name, ofmt->mime_type, ofmt->extensions);
+    MOGIC_DLOG("name:%s, long_name:%s, mime_type:%s, extensions:%s", ofmt->name, ofmt->long_name, ofmt->mime_type, ofmt->extensions);
     
-    for (int i = 0; i < ifmtCtx->nb_streams; i++) {
+    for (unsigned int i = 0; i < ifmtCtx->nb_streams; i++) {
         AVStream *inStream = ifmtCtx->streams[i];
         if(inStream->codecpar->codec_type != AVMEDIA_TYPE_VIDEO && inStream->codecpar->codec_type != AVMEDIA_TYPE_AUDIO) {
             continue;
         }
-        AVCodec *inCodec = avcodec_find_decoder(inStream->codecpar->codec_id);
+        AVCodec *inCodec = avcodec_find_encoder(inStream->codecpar->codec_id);
         AVStream *outStream = avformat_new_stream(ofmtCtx, NULL);
         if (!outStream) {
-            printf( "Failed allocating output stream\n");
+            MOGIC_DLOG( "Failed allocating output stream");
             ret = AVERROR_UNKNOWN;
             stop();
             return -1;
@@ -76,7 +71,7 @@ int RTMPPush::initRTMP(const char *outPath, const char *filePath) {
         AVCodecContext *codecCtx = avcodec_alloc_context3(inCodec);
         ret = avcodec_parameters_to_context(codecCtx, inStream->codecpar);
         if (ret < 0){
-            printf("Failed to copy in_stream codecpar to codec context\n");
+            MOGIC_DLOG("Failed to copy in_stream codecpar to codec context");
             stop();
             return -1;
         }
@@ -87,7 +82,7 @@ int RTMPPush::initRTMP(const char *outPath, const char *filePath) {
         }
         ret = avcodec_parameters_from_context(outStream->codecpar, codecCtx);
         if (ret < 0){
-            printf("Failed to copy codec context to out_stream codecpar context\n");
+            MOGIC_DLOG("Failed to copy codec context to out_stream codecpar context");
             stop();
             return -1;
         }
@@ -101,7 +96,7 @@ int RTMPPush::initRTMP(const char *outPath, const char *filePath) {
         avio_open2( &ofmtCtx->pb, outPath , AVIO_FLAG_WRITE , NULL , &format_opts);
 //        ret = avio_open(&ofmtCtx->pb, outPath, AVIO_FLAG_WRITE);
         if (ret < 0) {
-            printf( "Could not open output URL '%s'", outPath);
+            MOGIC_DLOG( "Could not open output URL '%s'", outPath);
             stop();
             return -1;
         }
@@ -115,7 +110,7 @@ void RTMPPush::readPacket() {
     int ret;
     ret = writerHeader();
     if (ret < 0) {
-        printf( "Error occurred when opening output URL\n");
+        MOGIC_DLOG( "Error occurred when opening output URL");
         stop();
         return;
     }
@@ -132,7 +127,7 @@ void RTMPPush::readPacket() {
 
         ret = writerPacket(pkt);
         if (ret < 0) {
-            printf( "Error muxing packet\n");
+            MOGIC_DLOG( "Error muxing packet");
             break;
         }
 //        av_packet_unref(&pkt);
@@ -144,6 +139,29 @@ void RTMPPush::readPacket() {
     return;
 }
 
+int RTMPPush::pushPacket(AVPacket *pkt1) {
+    if (startTime == 0) {
+        startTime = av_gettime();
+        int ret = writerHeader();
+        if (ret < 0) {
+            MOGIC_DLOG( "Error occurred when opening output URL");
+            stop();
+            return -1;
+        }
+    }
+    AVPacket pkt = *pkt1;
+    int ret = writerPacket(pkt);
+    if (ret < 0) {
+        MOGIC_DLOG( "Error muxing packet");
+        return -1;
+    }
+    return 0;
+}
+
+void RTMPPush::stopPush() {
+    writerTrailer();
+    stop();
+}
 
 int RTMPPush::writerHeader() {
     int ret = avformat_write_header(ofmtCtx, NULL);
@@ -193,11 +211,11 @@ int RTMPPush::writerPacket(AVPacket pkt) {
     pkt.pos = -1;
     
     if(pkt.stream_index==videoIndex){
-        printf("Send %8d %8lld video frames to output %s\n",frameIndex, pkt.pts, outPath);
+        MOGIC_DLOG("send video index: %8d pts: %8lld", frameIndex, pkt.pts);
         frameIndex++;
     }
     if (pkt.stream_index == audioIndex) {
-        printf("Send %8d audio frames to output %s\n",pcmIndex, outPath);
+        MOGIC_DLOG("send audio index: %8d pts: %8lld", pcmIndex, pkt.pts);
         pcmIndex++;
     }
     
@@ -205,20 +223,20 @@ int RTMPPush::writerPacket(AVPacket pkt) {
     ret = av_interleaved_write_frame(ofmtCtx, &pkt);
 
     if (ret < 0) {
-        printf( "Error muxing packet\n");
+        MOGIC_DLOG("Error muxing packet");
     }
     return ret;
 }
 
 void RTMPPush::stop() {
-    printf("RTMPPush::stop\n");
+    MOGIC_DLOG("RTMPPush::stop");
     if (ifmtCtx) {
         avformat_close_input(&ifmtCtx);
         ifmtCtx = nullptr;
     }
     /* close output */
     if (ofmtCtx) {
-        if (ofmtCtx && !(ofmt->flags & AVFMT_NOFILE)) {
+        if (!(ofmt->flags & AVFMT_NOFILE)) {
             avio_close(ofmtCtx->pb);
         }
         avformat_free_context(ofmtCtx);
