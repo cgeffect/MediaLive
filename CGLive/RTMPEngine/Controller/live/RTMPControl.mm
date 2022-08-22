@@ -5,18 +5,18 @@
 //  Created by 王腾飞 on 2021/11/10.
 //
 
-#import "PullRTMP.h"
+#import "RTMPControl.h"
 #import "AVVideoDecoderFF.h"
-#include "RTMPPush.h"
+#include "RTMPPushLocal.h"
 
-@interface PullRTMP ()
+@interface RTMPControl ()
 {
     AVVideoDecoderFF *_dcFF;
 }
 
 @end
 
-@implementation PullRTMP
+@implementation RTMPControl
 - (instancetype)init {
     self = [super init];
     if (self) {
@@ -37,7 +37,7 @@
 - (void)push {
     NSString *input_nsstr= [[NSBundle mainBundle] pathForResource:@"source.200kbps.768x320" ofType:@"flv"];
     NSString *outPath = [self creatFile:@"out.flv"];
-    mogic::RTMPPush push;
+    mogic::RTMPPushLocal push;
     push.initRTMP("rtmp://172.16.184.26:1935/live/livestream", input_nsstr.UTF8String);
 //    push.initRTMP(outPath.UTF8String, input_nsstr.UTF8String);
 }

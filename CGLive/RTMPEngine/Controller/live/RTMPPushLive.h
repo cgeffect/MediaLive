@@ -16,6 +16,7 @@ extern "C" {
 #include <libswscale/swscale.h>
 }
 #include "FFAVDemuxer.h"
+#include <thread>
 
 namespace mogic {
 
@@ -26,11 +27,13 @@ public:
     int initRTMP(int srcWidth, int srcHeight, AVPixelFormat srcFormat, const char *outPath, const char *audioPath);
     void setAudioLive(const char *outPath);
 
-    //rgba
+    // rgba
     int encodeByteData(uint8_t *byteData, uint32_t frameIndex);
+
     int encodeTail();
 
 private:
+    bool isConnected = false;
     int initContext();
 
     struct FFVideoInfoPush {
@@ -52,7 +55,6 @@ private:
     AVBSFContext *bsf_ctx;
     AVBitStreamFilterContext *bsfc;
 
-    
     void destroy();
     FFVideoInfoPush videoInfo;
     AVFormatContext *ofmtCtx = nullptr;
@@ -69,12 +71,15 @@ private:
     SwsContext *swsContext = nullptr;
 
     volatile int exit = 0;
-    
+    int audioIndex = 0;
+
     static int interrupt_cb(void *ctx);
-    
+
     FFAVDemuxer *demuxer = nullptr;
     AVStream *initAudioStream(int audioSampleRate, int audioChannels, int audioBitRate, AVStream *src);
     AVStream *initVideoStream();
+    void pushAudio(int frameIndex, int64_t nowTime);
+    bool hasAudio = false;
 };
 
 } // namespace mogic

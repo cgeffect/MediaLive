@@ -8,10 +8,10 @@
 
 /* Begin PBXBuildFile section */
 		96365FA7283F59C1007E8A96 /* source.200kbps.768x320.flv in Resources */ = {isa = PBXBuildFile; fileRef = 96365FA6283F59C0007E8A96 /* source.200kbps.768x320.flv */; };
-		96365FAC283F600D007E8A96 /* RTMPPush.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 96365FAA283F600D007E8A96 /* RTMPPush.cpp */; };
+		96365FAC283F600D007E8A96 /* RTMPPushLocal.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 96365FAA283F600D007E8A96 /* RTMPPushLocal.cpp */; };
 		9655DDCC273C082700491380 /* AVVideoDemuxer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 9655DDCA273C082700491380 /* AVVideoDemuxer.cpp */; };
 		9655DDCD273C082700491380 /* AVVideoDecoderFF.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 9655DDCB273C082700491380 /* AVVideoDecoderFF.cpp */; };
-		9655DDD0273C085400491380 /* PullRTMP.mm in Sources */ = {isa = PBXBuildFile; fileRef = 9655DDCF273C085300491380 /* PullRTMP.mm */; };
+		9655DDD0273C085400491380 /* RTMPControl.mm in Sources */ = {isa = PBXBuildFile; fileRef = 9655DDCF273C085300491380 /* RTMPControl.mm */; };
 		96695A102840ACFA0059506F /* RTMPPushLive.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 96695A0E2840ACFA0059506F /* RTMPPushLive.cpp */; };
 		96695A172840ADE80059506F /* LogUtils.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 96695A162840ADE80059506F /* LogUtils.cpp */; };
 		96C4EA0F28470121001A85BD /* FFAVDemuxer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 96C4EA0E28470121001A85BD /* FFAVDemuxer.cpp */; };
@@ -63,14 +63,14 @@
 
 /* Begin PBXFileReference section */
 		96365FA6283F59C0007E8A96 /* source.200kbps.768x320.flv */ = {isa = PBXFileReference; lastKnownFileType = file; path = source.200kbps.768x320.flv; sourceTree = "<group>"; };
-		96365FAA283F600D007E8A96 /* RTMPPush.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = RTMPPush.cpp; sourceTree = "<group>"; };
-		96365FAB283F600D007E8A96 /* RTMPPush.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = RTMPPush.h; sourceTree = "<group>"; };
+		96365FAA283F600D007E8A96 /* RTMPPushLocal.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = RTMPPushLocal.cpp; sourceTree = "<group>"; };
+		96365FAB283F600D007E8A96 /* RTMPPushLocal.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = RTMPPushLocal.h; sourceTree = "<group>"; };
 		9655DDC8273C082600491380 /* AVVideoDemuxer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AVVideoDemuxer.h; sourceTree = "<group>"; };
 		9655DDC9273C082700491380 /* AVVideoDecoderFF.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AVVideoDecoderFF.h; sourceTree = "<group>"; };
 		9655DDCA273C082700491380 /* AVVideoDemuxer.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = AVVideoDemuxer.cpp; sourceTree = "<group>"; };
 		9655DDCB273C082700491380 /* AVVideoDecoderFF.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = AVVideoDecoderFF.cpp; sourceTree = "<group>"; };
-		9655DDCE273C085300491380 /* PullRTMP.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PullRTMP.h; sourceTree = "<group>"; };
-		9655DDCF273C085300491380 /* PullRTMP.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = PullRTMP.mm; sourceTree = "<group>"; };
+		9655DDCE273C085300491380 /* RTMPControl.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = RTMPControl.h; sourceTree = "<group>"; };
+		9655DDCF273C085300491380 /* RTMPControl.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = RTMPControl.mm; sourceTree = "<group>"; };
 		96695A0E2840ACFA0059506F /* RTMPPushLive.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = RTMPPushLive.cpp; sourceTree = "<group>"; };
 		96695A0F2840ACFA0059506F /* RTMPPushLive.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = RTMPPushLive.h; sourceTree = "<group>"; };
 		96695A112840ADE80059506F /* MogicDefines.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MogicDefines.h; sourceTree = "<group>"; };
@@ -325,11 +325,11 @@
 			children = (
 				96C4EA0E28470121001A85BD /* FFAVDemuxer.cpp */,
 				96C4EA0D28470121001A85BD /* FFAVDemuxer.h */,
-				9655DDCE273C085300491380 /* PullRTMP.h */,
-				9655DDCF273C085300491380 /* PullRTMP.mm */,
+				9655DDCE273C085300491380 /* RTMPControl.h */,
+				9655DDCF273C085300491380 /* RTMPControl.mm */,
 				E5FE9708265FB37E00548BB1 /* RTMP.md */,
-				96365FAA283F600D007E8A96 /* RTMPPush.cpp */,
-				96365FAB283F600D007E8A96 /* RTMPPush.h */,
+				96365FAA283F600D007E8A96 /* RTMPPushLocal.cpp */,
+				96365FAB283F600D007E8A96 /* RTMPPushLocal.h */,
 				96695A0E2840ACFA0059506F /* RTMPPushLive.cpp */,
 				96695A0F2840ACFA0059506F /* RTMPPushLive.h */,
 			);
@@ -897,10 +897,10 @@
 				E5FE9728265FB37E00548BB1 /* LiveVideoPacketQueue.cpp in Sources */,
 				E5FE97EC265FB44100548BB1 /* CCCaptureManager.m in Sources */,
 				E5C19564265DDB95003AC764 /* AppDelegate.m in Sources */,
-				9655DDD0273C085400491380 /* PullRTMP.mm in Sources */,
+				9655DDD0273C085400491380 /* RTMPControl.mm in Sources */,
 				E5FE97F0265FB44100548BB1 /* CCAudioDecoder.m in Sources */,
 				96695A172840ADE80059506F /* LogUtils.cpp in Sources */,
-				96365FAC283F600D007E8A96 /* RTMPPush.cpp in Sources */,
+				96365FAC283F600D007E8A96 /* RTMPPushLocal.cpp in Sources */,
 				E5FE9726265FB37E00548BB1 /* LiveConsumerThread.cpp in Sources */,
 				E5FE9727265FB37E00548BB1 /* LivePublisher.mm in Sources */,
 				E5FE971C265FB37E00548BB1 /* simplest_librtmp_send264.cpp in Sources */,

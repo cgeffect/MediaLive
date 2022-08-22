@@ -9,7 +9,7 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-@interface PullRTMP : NSObject
+@interface RTMPControl : NSObject
 - (void)loadPath;
 - (void)push;
 - (void)pushLive;
