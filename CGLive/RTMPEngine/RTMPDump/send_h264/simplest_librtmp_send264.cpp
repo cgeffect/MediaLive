@@ -36,7 +36,7 @@ void load_file(char* argv)
 	//初始化并连接到服务器
     //192.168.61.136
     //192.168.0.5
-	RTMP264_Connect("rtmp://192.168.0.5/live/livestream");
+	RTMP264_Connect("rtmp://172.16.184.26:1935/live/livestream");
 	
 	//发送
 	RTMP264_Send(read_buffer1);
