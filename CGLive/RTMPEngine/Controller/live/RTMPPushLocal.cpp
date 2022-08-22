@@ -6,7 +6,6 @@
 //
 
 #include "RTMPPushLocal.h"
-#include "MogicDefines.h"
 
 namespace mogic {
 /* avio_open2函数的返回值大于等于0，则将 isConnected变量设置为true，代表其已经成功地打开了文件输出通道。 唯一需要注意的一点是，需要配置一个超时回调函数进去，这个回调函 数主要是给FFmpeg的协议层用的，在实现这个函数的时候，返回1则代 表结束I/O操作，返回0则代表继续I/O操作 */
@@ -20,12 +19,12 @@ int RTMPPushLocal::initRTMP(const char *outPath, const char *filePath) {
     avformat_network_init();
     // Input
     if ((ret = avformat_open_input(&ifmtCtx, filePath, 0, 0)) < 0) {
-        MOGIC_DLOG("Could not open input file %s", filePath);
+        printf("Could not open input file %s", filePath);
         stop();
         return -1;
     }
     if ((ret = avformat_find_stream_info(ifmtCtx, 0)) < 0) {
-        MOGIC_DLOG("Failed to retrieve input stream information");
+        printf("Failed to retrieve input stream information");
         stop();
         return -1;
     }
@@ -48,7 +47,7 @@ int RTMPPushLocal::initRTMP(const char *outPath, const char *filePath) {
     // avformat_alloc_output_context2(&ofmt_ctx, NULL, "mpegts", out_filename);//UDP
 
     if (!ofmtCtx) {
-        MOGIC_DLOG("Could not create output context");
+        printf("Could not create output context");
         ret = AVERROR_UNKNOWN;
         stop();
         return -1;
@@ -56,7 +55,7 @@ int RTMPPushLocal::initRTMP(const char *outPath, const char *filePath) {
 
     ofmt = ofmtCtx->oformat;
 
-    MOGIC_DLOG("name:%s, long_name:%s, mime_type:%s, extensions:%s", ofmt->name, ofmt->long_name, ofmt->mime_type, ofmt->extensions);
+    printf("name:%s, long_name:%s, mime_type:%s, extensions:%s", ofmt->name, ofmt->long_name, ofmt->mime_type, ofmt->extensions);
 
     for (unsigned int i = 0; i < ifmtCtx->nb_streams; i++) {
         AVStream *inStream = ifmtCtx->streams[i];
@@ -66,7 +65,7 @@ int RTMPPushLocal::initRTMP(const char *outPath, const char *filePath) {
         AVCodec *inCodec = avcodec_find_encoder(inStream->codecpar->codec_id);
         AVStream *outStream = avformat_new_stream(ofmtCtx, NULL);
         if (!outStream) {
-            MOGIC_DLOG("Failed allocating output stream");
+            printf("Failed allocating output stream");
             ret = AVERROR_UNKNOWN;
             stop();
             return -1;
@@ -74,7 +73,7 @@ int RTMPPushLocal::initRTMP(const char *outPath, const char *filePath) {
         AVCodecContext *codecCtx = avcodec_alloc_context3(inCodec);
         ret = avcodec_parameters_to_context(codecCtx, inStream->codecpar);
         if (ret < 0) {
-            MOGIC_DLOG("Failed to copy in_stream codecpar to codec context");
+            printf("Failed to copy in_stream codecpar to codec context");
             stop();
             return -1;
         }
@@ -85,7 +84,7 @@ int RTMPPushLocal::initRTMP(const char *outPath, const char *filePath) {
         }
         ret = avcodec_parameters_from_context(outStream->codecpar, codecCtx);
         if (ret < 0) {
-            MOGIC_DLOG("Failed to copy codec context to out_stream codecpar context");
+            printf("Failed to copy codec context to out_stream codecpar context");
             stop();
             return -1;
         }
@@ -104,7 +103,7 @@ int RTMPPushLocal::initRTMP(const char *outPath, const char *filePath) {
         if (ret < 0) {
             char tmp[AV_ERROR_MAX_STRING_SIZE] = {0};
             char *err = av_make_error_string(tmp, AV_ERROR_MAX_STRING_SIZE, ret);
-//            MOGIC_DLOG("Could not open '%s': %s\n", videoInfo.outPath, err);
+//            printf("Could not open '%s': %s\n", videoInfo.outPath, err);
             return -1;
         }
     }
@@ -117,7 +116,7 @@ void RTMPPushLocal::readPacket() {
     int ret;
     ret = writerHeader();
     if (ret < 0) {
-        MOGIC_DLOG("Error occurred when opening output URL");
+        printf("Error occurred when opening output URL");
         stop();
         return;
     }
@@ -134,7 +133,7 @@ void RTMPPushLocal::readPacket() {
 
         ret = writerPacket(pkt);
         if (ret < 0) {
-            MOGIC_DLOG("Error muxing packet");
+            printf("Error muxing packet");
             break;
         }
         //        av_packet_unref(&pkt);
@@ -151,7 +150,7 @@ int RTMPPushLocal::pushPacket(AVPacket *pkt1) {
         startTime = av_gettime();
         int ret = writerHeader();
         if (ret < 0) {
-            MOGIC_DLOG("Error occurred when opening output URL");
+            printf("Error occurred when opening output URL");
             stop();
             return -1;
         }
@@ -159,7 +158,7 @@ int RTMPPushLocal::pushPacket(AVPacket *pkt1) {
     AVPacket pkt = *pkt1;
     int ret = writerPacket(pkt);
     if (ret < 0) {
-        MOGIC_DLOG("Error muxing packet");
+        printf("Error muxing packet");
         return -1;
     }
     return 0;
@@ -218,11 +217,11 @@ int RTMPPushLocal::writerPacket(AVPacket pkt) {
     pkt.pos = -1;
 
     if (pkt.stream_index == videoIndex) {
-        MOGIC_DLOG("send video index: %8d pts: %8lld", frameIndex, pkt.pts);
+        printf("send video index: %8d pts: %8lld", frameIndex, pkt.pts);
         frameIndex++;
     }
     if (pkt.stream_index == audioIndex) {
-        MOGIC_DLOG("send audio index: %8d pts: %8lld", pcmIndex, pkt.pts);
+        printf("send audio index: %8d pts: %8lld", pcmIndex, pkt.pts);
         pcmIndex++;
     }
 
@@ -230,13 +229,13 @@ int RTMPPushLocal::writerPacket(AVPacket pkt) {
     ret = av_interleaved_write_frame(ofmtCtx, &pkt);
 
     if (ret < 0) {
-        MOGIC_DLOG("Error muxing packet");
+        printf("Error muxing packet");
     }
     return ret;
 }
 
 void RTMPPushLocal::stop() {
-    MOGIC_DLOG("RTMPPush::stop");
+    printf("RTMPPush::stop");
     if (ifmtCtx) {
         avformat_close_input(&ifmtCtx);
         ifmtCtx = nullptr;
