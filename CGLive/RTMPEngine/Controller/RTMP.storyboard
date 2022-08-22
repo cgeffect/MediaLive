@@ -102,12 +102,21 @@
                                 </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="shW-x0-Xfk">
-                                <rect key="frame" x="54" y="248" width="63" height="31"/>
+                                <rect key="frame" x="37" y="248" width="97" height="31"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <state key="normal" title="Button"/>
-                                <buttonConfiguration key="configuration" style="plain" title="RTMP"/>
+                                <buttonConfiguration key="configuration" style="plain" title="RTMP local"/>
                                 <connections>
                                     <action selector="rtmp:" destination="QYi-3C-HCj" eventType="touchUpInside" id="ti5-ZL-RUs"/>
+                                </connections>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="bzi-gg-kgZ">
+                                <rect key="frame" x="259" y="248" width="89" height="31"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <state key="normal" title="Button"/>
+                                <buttonConfiguration key="configuration" style="plain" title="RTMP live"/>
+                                <connections>
+                                    <action selector="rtmplive:" destination="QYi-3C-HCj" eventType="touchUpInside" id="W2O-BQ-Ry6"/>
                                 </connections>
                             </button>
                         </subviews>

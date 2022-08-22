@@ -15,6 +15,7 @@ extern "C" {
 #include <libavutil/imgutils.h>
 #include <libswscale/swscale.h>
 }
+#include "FFAVDemuxer.h"
 
 namespace mogic {
 
@@ -22,14 +23,16 @@ class RTMPPushLive {
 public:
     RTMPPushLive();
     ~RTMPPushLive();
-    int initRTMP(int srcWidth, int srcHeight, AVPixelFormat srcFormat, const char *outPath);
+    int initRTMP(int srcWidth, int srcHeight, AVPixelFormat srcFormat, const char *outPath, const char *audioPath);
     void setAudioLive(const char *outPath);
 
-    int initCodecCtx();
+    //rgba
     int encodeByteData(uint8_t *byteData, uint32_t frameIndex);
     int encodeTail();
 
 private:
+    int initContext();
+
     struct FFVideoInfoPush {
         int srcWidth;
         int srcHeight;
@@ -46,12 +49,18 @@ private:
 
     int encodeFrame(AVFrame *srcFrame);
     int64_t startTime = 0;
+    AVBSFContext *bsf_ctx;
+    AVBitStreamFilterContext *bsfc;
 
+    
     void destroy();
     FFVideoInfoPush videoInfo;
     AVFormatContext *ofmtCtx = nullptr;
-    AVStream *newStream = nullptr;
-    AVCodecContext *codecCtx = nullptr;
+    AVStream *videoStream = nullptr;
+    AVStream *audioStream = nullptr;
+    AVStream *inStream = nullptr;
+    AVCodecContext *h264CodecCtx = nullptr;
+    AVCodecContext *aacCodecCtx = nullptr;
     AVPacket *packet;
 
     // convert
@@ -60,6 +69,12 @@ private:
     SwsContext *swsContext = nullptr;
 
     volatile int exit = 0;
+    
+    static int interrupt_cb(void *ctx);
+    
+    FFAVDemuxer *demuxer = nullptr;
+    AVStream *initAudioStream(int audioSampleRate, int audioChannels, int audioBitRate, AVStream *src);
+    AVStream *initVideoStream();
 };
 
 } // namespace mogic

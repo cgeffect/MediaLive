@@ -42,6 +42,10 @@
 //    push.initRTMP(outPath.UTF8String, input_nsstr.UTF8String);
 }
 
+- (void)pushLive {
+    
+}
+
 - (NSString *)creatFile:(NSString *)fileName {
     NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
     NSString *path = [paths objectAtIndex:0];
