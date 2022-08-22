@@ -6,7 +6,6 @@
 //
 
 #include "RTMPPushLive.h"
-#include "MogicDefines.h"
 
 extern "C" {
 #include <libavutil/log.h>
@@ -58,7 +57,7 @@ int RTMPPushLive::initRTMP(int srcWidth, int srcHeight, AVPixelFormat srcFormat,
         if (ret < 0) {
             char tmp[AV_ERROR_MAX_STRING_SIZE] = {0};
             char *err = av_make_error_string(tmp, AV_ERROR_MAX_STRING_SIZE, ret);
-            MOGIC_DLOG("Could not open '%s': %s\n", outPath, err);
+            printf("Could not open '%s': %s\n", outPath, err);
             return -1;
         }
     }
@@ -66,7 +65,7 @@ int RTMPPushLive::initRTMP(int srcWidth, int srcHeight, AVPixelFormat srcFormat,
     AVDictionary *opt = nullptr;
     int result = avformat_write_header(ofmtCtx, &opt);
     if (result < 0) {
-        MOGIC_DLOG("avformat_write_header fail");
+        printf("avformat_write_header fail");
         ;
     }
     isConnected = true;
@@ -89,7 +88,7 @@ void RTMPPushLive::setAudioLive(const char *outPath) {
     demuxer->loadResource(outPath);
     audioStream = initAudioStream(44100, 2, 6400, demuxer->aStream);
     if (!audioStream) {
-        MOGIC_DLOG("initAudioStream fail");
+        printf("initAudioStream fail");
     }
 }
 
@@ -98,7 +97,7 @@ int RTMPPushLive::initContext() {
     // open live
     int result = avformat_alloc_output_context2(&ofmtCtx, nullptr, "flv", videoInfo.outPath);
     if (result < 0) {
-        MOGIC_DLOG("avformat_alloc_output_context2 fail");
+        printf("avformat_alloc_output_context2 fail");
         return -1;
     }
     videoStream = initVideoStream();
@@ -109,7 +108,9 @@ int RTMPPushLive::initContext() {
     //颜色转换
     if (videoInfo.srcPixFmt != videoInfo.dstPixFmt) {
         yuv420pFrame = av_frame_alloc();
-        MOGIC_CHECK_ELOG(yuv420pFrame == nullptr, MOGIC_FFENCODER_INIT_ERROR, "FFVideoRecorder::initRecord av_frame_alloc fail.")
+        if (yuv420pFrame == nullptr) {
+            printf("FFVideoRecorder::initRecord av_frame_alloc fail\n");
+        }
 
         yuv420pFrame->width = h264CodecCtx->width;
         yuv420pFrame->height = h264CodecCtx->height;
@@ -124,11 +125,15 @@ int RTMPPushLive::initContext() {
                                     videoInfo.dstWidth, videoInfo.dstHeight, videoInfo.dstPixFmt,
                                     SWS_LANCZOS | SWS_ACCURATE_RND, nullptr, nullptr, nullptr);
         // videoInfo.distHeight, videoInfo.distPixFmt, SWS_FAST_BILINEAR, nullptr, nullptr, nullptr);
-        MOGIC_CHECK_ELOG(swsContext == nullptr, MOGIC_FFENCODER_INIT_ERROR, "RTMPPushLive sws_getcontext error")
+        if (swsContext == nullptr) {
+            printf("RTMPPushLive sws_getcontext error\n");
+        }
     }
 
     packet = av_packet_alloc();
-    MOGIC_CHECK_ELOG(packet == nullptr, MOGIC_FFENCODER_INIT_ERROR, "RTMPPushLive av_packet_alloc fail.")
+    if (packet == nullptr) {
+        printf("RTMPPushLive av_packet_alloc fail\n");
+    }
 
     //微妙
     startTime = av_gettime();
@@ -156,15 +161,15 @@ AVStream *RTMPPushLive::initVideoStream() {
     if (h264Codec->id == AV_CODEC_ID_H264) {
         int ret = av_opt_set(codecCtx->priv_data, "preset", "ultrafast", 0);
         if (ret != 0) {
-            MOGIC_WARN("av_opt_set preset failed");
+            printf("av_opt_set preset failed");
         }
         ret = av_opt_set(codecCtx->priv_data, "profile", "baseline", 0);
         if (ret != 0) {
-            MOGIC_WARN("av_opt_set profile failed");
+            printf("av_opt_set profile failed");
         }
         ret = av_opt_set(codecCtx->priv_data, "tune", "zerolatency", 0);
         if (ret != 0) {
-            MOGIC_WARN("av_opt_set tune failed");
+            printf("av_opt_set tune failed");
         }
     }
     //沒有它們，編碼器可能會在發送到容器的數據中添加元數據。對於AAC它是ADTS標題，對於H264它是SPS和PPS數據。
@@ -173,7 +178,7 @@ AVStream *RTMPPushLive::initVideoStream() {
     }
     int result = avcodec_open2(codecCtx, h264Codec, nullptr);
     if (result < 0) {
-        MOGIC_DLOG("open codec fail");
+        printf("open codec fail");
     }
 
     // open stream, 这一步之后会创建一个流, 这个流会保存在ofmtCtx
@@ -208,7 +213,7 @@ AVStream *RTMPPushLive::initAudioStream(int audioSampleRate, int audioChannels, 
 
     ret = avcodec_parameters_from_context(st->codecpar, codecCtx);
     if (ret < 0) {
-        MOGIC_DLOG("Failed to copy codec context to out_stream codecpar context");
+        printf("Failed to copy codec context to out_stream codecpar context");
     }
 
     aacCodecCtx = codecCtx;
@@ -218,7 +223,7 @@ AVStream *RTMPPushLive::initAudioStream(int audioSampleRate, int audioChannels, 
 // byteData是rgba数据
 int RTMPPushLive::encodeByteData(uint8_t *byteData, uint32_t frameIndex) {
     if (!isConnected) {
-        MOGIC_DLOG("未连接 %s", videoInfo.outPath);
+        printf("未连接 %s", videoInfo.outPath);
         return -1;
     }
     int64_t ptsTime = frameIndex * (1000 / videoInfo.dstFps) * 1000;
@@ -226,7 +231,7 @@ int RTMPPushLive::encodeByteData(uint8_t *byteData, uint32_t frameIndex) {
     // std::cout << "ptsTime: " << ptsTime << std::endl;
     if (ptsTime > nowTime) {
         av_usleep((int)(ptsTime - nowTime));
-        MOGIC_DLOG("sleep: %d", ptsTime - nowTime);
+        printf("sleep: %d", ptsTime - nowTime);
     }
     if (hasAudio) {
         pushAudio(frameIndex, nowTime);
@@ -240,7 +245,7 @@ int RTMPPushLive::encodeByteData(uint8_t *byteData, uint32_t frameIndex) {
             lineSize[0] = videoInfo.dstWidth * 4;
             sws_scale(swsContext, data, lineSize, 0, videoInfo.dstHeight, yuv420pFrame->data, yuv420pFrame->linesize);
         } else {
-            MOGIC_ERROR("RTMPPushLive::encodeByteData frameIndex=%d sws_scale error", frameIndex);
+            printf("RTMPPushLive::encodeByteData frameIndex=%d sws_scale error", frameIndex);
             return -1;
         }
 
@@ -280,7 +285,7 @@ void RTMPPushLive::pushAudio(int frameIndex, int64_t nowTime) {
         av_interleaved_write_frame(ofmtCtx, pkt);
 
         audioIndex++;
-        MOGIC_DLOG("audio index: %d ptsMs: %lld", audioIndex, ptsMs);
+        printf("audio index: %d ptsMs: %lld", audioIndex, ptsMs);
         if (ptsMs * 1000 > nowTime) {
             break;
         }
@@ -300,7 +305,9 @@ int RTMPPushLive::encodeFrame(AVFrame *srcFrame) {
         //数据不够, 继续送
         return 0;
     }
-    MOGIC_CHECK_ELOG(ret < 0, MOGIC_FFENCODER_ENCODE_ERROR, "RTMPPushLive avcodec_send_frame fail. ret=%d", ret)
+    if (ret < 0) {
+        printf("RTMPPushLive avcodec_send_frame fail\n");
+    }
 
     while (true) {
         ret = avcodec_receive_packet(h264CodecCtx, packet);
@@ -314,8 +321,8 @@ int RTMPPushLive::encodeFrame(AVFrame *srcFrame) {
         }
 
         if (ret < 0) {
-            MOGIC_ERROR("RTMPPushLive avcodec_receive_packet fail. ret=%d", result);
-            return MOGIC_FFENCODER_ENCODE_ERROR;
+            printf("RTMPPushLive avcodec_receive_packet fail. ret=%d", ret);
+            return -1;
         }
 
         packet->stream_index = videoStream->index;
@@ -325,7 +332,7 @@ int RTMPPushLive::encodeFrame(AVFrame *srcFrame) {
 
         auto ptsMs = packet->pts * av_q2d(videoStream->time_base) * 1000;
         auto dtsMs = packet->dts * av_q2d(videoStream->time_base) * 1000;
-        MOGIC_DLOG("video index: %d ptsMs: %d", srcFrame->pts, ptsMs);
+        printf("video index: %d ptsMs: %d", srcFrame->pts, ptsMs);
         // m_avPacket.pos = -1;
         av_interleaved_write_frame(ofmtCtx, packet);
         // av_packet_unref(m_avPacket);
