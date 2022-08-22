@@ -17,15 +17,8 @@ extern "C" {
 #include <iostream>
 
 namespace mogic {
-/* avio_open2函数的返回值大于等于0，则将 isConnected变量设置为true，代表其已经成功地打开了文件输出通道。 唯一需要注意的一点是，需要配置一个超时回调函数进去，这个回调函 数主要是给FFmpeg的协议层用的，在实现这个函数的时候，返回1则代 表结束I/O操作，返回0则代表继续I/O操作 */
+
 int RTMPPushLive::interrupt_cb(void *ctx) { // 超时回调函数
-//    LiveVideoPublisher *publisher = (LiveVideoPublisher *)ctx;
-//    long diff = platform_4_live::getCurrentTimeMills() - publisher->latestFrameTime;
-//    if (diff > publisher->publishTimeout) {
-////        int queueSize = LivePacketPool::GetInstance()->getRecordingVideoPacketQueueSize();
-//        printf("LiveVideoPublisher::interrupt_cb callback time out ... queue size:%ld\n", diff);
-//        return 1; // 返回 1 则代表结束 I/O 操作
-//    }
     return 0;
 }
 
@@ -50,31 +43,38 @@ int RTMPPushLive::initRTMP(int srcWidth, int srcHeight, AVPixelFormat srcFormat,
     videoInfo.bitRate = videoInfo.dstWidth * videoInfo.dstHeight * 3;
 
     initContext();
+    if (audioPath) {
+        setAudioLive(audioPath);
+    }
 
-    setAudioLive(audioPath);
-    
     //打开连接通道
     if (!(ofmtCtx->oformat->flags & AVFMT_NOFILE)) {
         AVDictionary *format_opts = NULL;
-        av_dict_set(&format_opts, "rw_timeout",  "1000000", 0); //设置超时时间,单位mcs
-        
-        AVIOInterruptCB int_cb = { interrupt_cb, this};
+        av_dict_set(&format_opts, "rw_timeout", "1000000", 0); //设置超时时间,单位mcs
+
+        AVIOInterruptCB int_cb = {interrupt_cb, this};
         ofmtCtx->interrupt_callback = int_cb;
         int ret = avio_open2(&ofmtCtx->pb, videoInfo.outPath, AVIO_FLAG_WRITE, &ofmtCtx->interrupt_callback, &format_opts);
         if (ret < 0) {
-            printf("Could not open '%s': %s\n", videoInfo.outPath, av_err2str(ret));
+            char tmp[AV_ERROR_MAX_STRING_SIZE] = {0};
+            char *err = av_make_error_string(tmp, AV_ERROR_MAX_STRING_SIZE, ret);
+            MOGIC_DLOG("Could not open '%s': %s\n", outPath, err);
             return -1;
         }
     }
-    
+
     AVDictionary *opt = nullptr;
     int result = avformat_write_header(ofmtCtx, &opt);
     if (result < 0) {
-        printf("");
+        MOGIC_DLOG("avformat_write_header fail");
+        ;
     }
+    isConnected = true;
     return 0;
 }
+
 void RTMPPushLive::setAudioLive(const char *outPath) {
+    hasAudio = true;
     //找到编码格式
     const AVCodec *codec = avcodec_find_encoder(AV_CODEC_ID_AAC);
     AVSampleFormat sampleFmt = AV_SAMPLE_FMT_NONE;
@@ -89,24 +89,23 @@ void RTMPPushLive::setAudioLive(const char *outPath) {
     demuxer->loadResource(outPath);
     audioStream = initAudioStream(44100, 2, 6400, demuxer->aStream);
     if (!audioStream) {
-        printf("initAudioStream fail");
+        MOGIC_DLOG("initAudioStream fail");
     }
 }
 
 int RTMPPushLive::initContext() {
-    
     avformat_network_init();
     // open live
     int result = avformat_alloc_output_context2(&ofmtCtx, nullptr, "flv", videoInfo.outPath);
     if (result < 0) {
-        printf("avformat_alloc_output_context2 fail");
+        MOGIC_DLOG("avformat_alloc_output_context2 fail");
         return -1;
     }
     videoStream = initVideoStream();
     if (!videoStream) {
         return -1;
     }
-   
+
     //颜色转换
     if (videoInfo.srcPixFmt != videoInfo.dstPixFmt) {
         yuv420pFrame = av_frame_alloc();
@@ -121,17 +120,16 @@ int RTMPPushLive::initContext() {
         av_image_fill_arrays(yuv420pFrame->data, yuv420pFrame->linesize, yuv420pBuffer, h264CodecCtx->pix_fmt,
                              h264CodecCtx->width, h264CodecCtx->height, 1);
 
-        swsContext =
-            sws_getContext(videoInfo.srcWidth, videoInfo.srcHeight, videoInfo.srcPixFmt,
-                           videoInfo.dstWidth, videoInfo.dstHeight, videoInfo.dstPixFmt,
-                           SWS_LANCZOS | SWS_ACCURATE_RND, nullptr, nullptr, nullptr);
+        swsContext = sws_getContext(videoInfo.srcWidth, videoInfo.srcHeight, videoInfo.srcPixFmt,
+                                    videoInfo.dstWidth, videoInfo.dstHeight, videoInfo.dstPixFmt,
+                                    SWS_LANCZOS | SWS_ACCURATE_RND, nullptr, nullptr, nullptr);
         // videoInfo.distHeight, videoInfo.distPixFmt, SWS_FAST_BILINEAR, nullptr, nullptr, nullptr);
-        MOGIC_CHECK_ELOG(swsContext == nullptr, MOGIC_FFENCODER_INIT_ERROR, "FFVideoRecorder::initRecord sws_getcontext error")
+        MOGIC_CHECK_ELOG(swsContext == nullptr, MOGIC_FFENCODER_INIT_ERROR, "RTMPPushLive sws_getcontext error")
     }
 
     packet = av_packet_alloc();
-    MOGIC_CHECK_ELOG(packet == nullptr, MOGIC_FFENCODER_INIT_ERROR, "FFVideoRecorder::initRecord av_packet_alloc fail.")
-   
+    MOGIC_CHECK_ELOG(packet == nullptr, MOGIC_FFENCODER_INIT_ERROR, "RTMPPushLive av_packet_alloc fail.")
+
     //微妙
     startTime = av_gettime();
 
@@ -154,8 +152,6 @@ AVStream *RTMPPushLive::initVideoStream() {
     codecCtx->thread_count = 8;
     codecCtx->thread_type = FF_THREAD_FRAME;
     codecCtx->max_b_frames = 0;
-    // av_opt_set(codecCtx->priv_data, "muxdelay", "1", 0);
-    // av_opt_set(codecCtx->priv_data, "crf", "16", 0);
 
     if (h264Codec->id == AV_CODEC_ID_H264) {
         int ret = av_opt_set(codecCtx->priv_data, "preset", "ultrafast", 0);
@@ -177,18 +173,18 @@ AVStream *RTMPPushLive::initVideoStream() {
     }
     int result = avcodec_open2(codecCtx, h264Codec, nullptr);
     if (result < 0) {
-        std::cout << "open codec fail" << std::endl;
+        MOGIC_DLOG("open codec fail");
     }
 
     // open stream, 这一步之后会创建一个流, 这个流会保存在ofmtCtx
-    //ffmpeg 推流流程, 1. AVFormatContext, 2. AVFormatContext里面包含具体的要推送的流数据,
+    // ffmpeg 推流流程, 1. AVFormatContext, 2. AVFormatContext里面包含具体的要推送的流数据,
     AVStream *stream = avformat_new_stream(ofmtCtx, nullptr);
     //把codecCtx赋值给stream, codecCtx最终是要给AVStream用的
     result = avcodec_parameters_from_context(stream->codecpar, codecCtx);
     if (result < 0) {
         return nullptr;
     }
-    stream->id = ofmtCtx->nb_streams - 1; //index的值由AVFormatContext设置, 所引从0开始一次递增
+    stream->id = ofmtCtx->nb_streams - 1; // index的值由AVFormatContext设置, 所引从0开始一次递增
     h264CodecCtx = codecCtx;
     return stream;
 }
@@ -198,108 +194,113 @@ AVStream *RTMPPushLive::initAudioStream(int audioSampleRate, int audioChannels, 
     AVCodec *aacCodec = avcodec_find_encoder(src->codecpar->codec_id);
     //设置codec参数
     AVStream *st = avformat_new_stream(ofmtCtx, NULL);
-  
+
     AVCodecContext *codecCtx = avcodec_alloc_context3(aacCodec);
     int ret = avcodec_parameters_to_context(codecCtx, src->codecpar);
     if (ret < 0) {
         return nullptr;
     }
     codecCtx->codec_tag = 0;
-    
+
     if (ofmtCtx->oformat->flags & AVFMT_GLOBALHEADER) {
         codecCtx->flags |= AV_CODEC_FLAG_GLOBAL_HEADER;
     }
-    
+
     ret = avcodec_parameters_from_context(st->codecpar, codecCtx);
-    if (ret < 0){
+    if (ret < 0) {
         MOGIC_DLOG("Failed to copy codec context to out_stream codecpar context");
     }
-    
+
     aacCodecCtx = codecCtx;
     return st;
 }
 
-int audioIndex = 0;
-//byteData是rgba数据
+// byteData是rgba数据
 int RTMPPushLive::encodeByteData(uint8_t *byteData, uint32_t frameIndex) {
+    if (!isConnected) {
+        MOGIC_DLOG("未连接 %s", videoInfo.outPath);
+        return -1;
+    }
     int64_t ptsTime = frameIndex * (1000 / videoInfo.dstFps) * 1000;
     int64_t nowTime = av_gettime() - startTime;
     // std::cout << "ptsTime: " << ptsTime << std::endl;
     if (ptsTime > nowTime) {
-         av_usleep((int)(ptsTime - nowTime));
-         std::cout << "sleep: " << ptsTime - nowTime << std::endl;
+        av_usleep((int)(ptsTime - nowTime));
+        MOGIC_DLOG("sleep: %d", ptsTime - nowTime);
+    }
+    if (hasAudio) {
+        pushAudio(frameIndex, nowTime);
     }
 
-    while (true) {
-        AVPacket *pkt = demuxer->demuxerPacket();
-        
-        if(pkt->pts == AV_NOPTS_VALUE) {
-            //Write PTS
-            AVRational time_base1 = audioStream->time_base;
-            //Duration between 2 frames (us)
-            int64_t calc_duration = (double)AV_TIME_BASE/av_q2d(audioStream->r_frame_rate);
-            //Parameters
-            pkt->pts = (double)(frameIndex*calc_duration)/(double)(av_q2d(time_base1)*AV_TIME_BASE);
-            pkt->dts = pkt->pts;
-            pkt->duration = (double)calc_duration/(double)(av_q2d(time_base1)*AV_TIME_BASE);
-        }
-        
-        AVStream *outStream = audioStream;
-        pkt->pts = av_rescale_q_rnd(pkt->pts, inStream->time_base, outStream->time_base, AVRounding(AV_ROUND_NEAR_INF|AV_ROUND_PASS_MINMAX));
-        pkt->dts = av_rescale_q_rnd(pkt->dts, inStream->time_base, outStream->time_base, AVRounding(AV_ROUND_NEAR_INF|AV_ROUND_PASS_MINMAX));
-        pkt->duration = av_rescale_q(pkt->duration, inStream->time_base, outStream->time_base);
-        pkt->pos = -1;
-        
-        pkt->stream_index = audioStream->index;
-        int64_t ptsMs = pkt->pts * av_q2d(audioStream->time_base) * 1000;
-
-//        av_packet_rescale_ts(pkt, aacCodecCtx->time_base, audioStream->time_base);
-
-        av_interleaved_write_frame(ofmtCtx, pkt);
-        
-        audioIndex++;
-        printf("audio index: %d ptsMs: %lld\n", audioIndex, ptsMs);
-        if (ptsMs * 1000 > nowTime) {
-            break;
-        }
-    }
-    
-    if (byteData == nullptr) {
-        return -1;
-    }
-    if (videoInfo.srcPixFmt != videoInfo.dstPixFmt) {
-        if (swsContext != nullptr) {
+    if (byteData != nullptr) {
+        if (videoInfo.srcPixFmt != videoInfo.dstPixFmt && swsContext != nullptr) {
             uint8_t *data[AV_NUM_DATA_POINTERS] = {0};
             int lineSize[AV_NUM_DATA_POINTERS] = {0};
             data[0] = byteData;
             lineSize[0] = videoInfo.dstWidth * 4;
             sws_scale(swsContext, data, lineSize, 0, videoInfo.dstHeight, yuv420pFrame->data, yuv420pFrame->linesize);
         } else {
-            MOGIC_ERROR("FFVideoRecorder::encodeByteData frameIndex=%d sws_scale error", frameIndex);
+            MOGIC_ERROR("RTMPPushLive::encodeByteData frameIndex=%d sws_scale error", frameIndex);
+            return -1;
+        }
+
+        //设置 pts, pts的值为什么是index
+        yuv420pFrame->pts = frameIndex;
+        if (encodeFrame(yuv420pFrame) < 0) {
             return -1;
         }
     }
 
-    //设置 pts, pts的值为什么是index
-    yuv420pFrame->pts = frameIndex;
-    if (encodeFrame(yuv420pFrame) < 0) {
-        return -1;
-    }
     return -1;
 }
 
+void RTMPPushLive::pushAudio(int frameIndex, int64_t nowTime) {
+    while (true) {
+        AVPacket *pkt = demuxer->demuxerPacket();
+        if (pkt->pts == AV_NOPTS_VALUE) {
+            // Write PTS
+            AVRational time_base1 = audioStream->time_base;
+            // Duration between 2 frames (us)
+            int64_t calc_duration = (double)AV_TIME_BASE / av_q2d(audioStream->r_frame_rate);
+            // Parameters
+            pkt->pts = (double)(frameIndex * calc_duration) / (double)(av_q2d(time_base1) * AV_TIME_BASE);
+            pkt->dts = pkt->pts;
+            pkt->duration = (double)calc_duration / (double)(av_q2d(time_base1) * AV_TIME_BASE);
+        }
+
+        AVStream *outStream = audioStream;
+        pkt->pts = av_rescale_q_rnd(pkt->pts, inStream->time_base, outStream->time_base, AVRounding(AV_ROUND_NEAR_INF | AV_ROUND_PASS_MINMAX));
+        pkt->dts = av_rescale_q_rnd(pkt->dts, inStream->time_base, outStream->time_base, AVRounding(AV_ROUND_NEAR_INF | AV_ROUND_PASS_MINMAX));
+        pkt->duration = av_rescale_q(pkt->duration, inStream->time_base, outStream->time_base);
+        pkt->pos = -1;
+
+        pkt->stream_index = audioStream->index;
+        int64_t ptsMs = pkt->pts * av_q2d(audioStream->time_base) * 1000;
+        // av_packet_rescale_ts(pkt, aacCodecCtx->time_base, audioStream->time_base);
+        av_interleaved_write_frame(ofmtCtx, pkt);
+
+        audioIndex++;
+        MOGIC_DLOG("audio index: %d ptsMs: %lld", audioIndex, ptsMs);
+        if (ptsMs * 1000 > nowTime) {
+            break;
+        }
+    }
+}
 //推流的几个关键点
-//AVFormatContext 输出上下文
-//AVStream, 由AVFormatContext创建
-//AVPacket, 具体要推流的压缩数据
+// AVFormatContext 输出上下文
+// AVStream, 由AVFormatContext创建
+// AVPacket, 具体要推流的压缩数据
 int RTMPPushLive::encodeFrame(AVFrame *srcFrame) {
+    if (srcFrame == nullptr) {
+        return 0;
+    }
     int ret = 0;
     ret = avcodec_send_frame(h264CodecCtx, srcFrame);
     if (ret == AVERROR(EAGAIN)) {
         //数据不够, 继续送
         return 0;
     }
-    MOGIC_CHECK_ELOG(ret < 0, MOGIC_FFENCODER_ENCODE_ERROR, "FFVideoRecorder::EncodeFrame avcodec_send_frame fail. ret=%d", ret)
+    MOGIC_CHECK_ELOG(ret < 0, MOGIC_FFENCODER_ENCODE_ERROR, "RTMPPushLive avcodec_send_frame fail. ret=%d", ret)
 
     while (true) {
         ret = avcodec_receive_packet(h264CodecCtx, packet);
@@ -313,22 +314,20 @@ int RTMPPushLive::encodeFrame(AVFrame *srcFrame) {
         }
 
         if (ret < 0) {
-            MOGIC_ERROR("FFVideoRecorder::EncodeFrame avcodec_receive_packet fail. ret=%d", result);
+            MOGIC_ERROR("RTMPPushLive avcodec_receive_packet fail. ret=%d", result);
             return MOGIC_FFENCODER_ENCODE_ERROR;
         }
 
         packet->stream_index = videoStream->index;
-        //h264CodecCtx->time_base=1/25, videoStream->time_base=1/1000
-        //pts的值会从frame的pts继承过来, frame设置的是索引值, av_packet_rescale_ts是把索引值转化为pts
+        // h264CodecCtx->time_base=1/25, videoStream->time_base=1/1000
+        // pts的值会从frame的pts继承过来, frame设置的是索引值, av_packet_rescale_ts是把索引值转化为pts
         av_packet_rescale_ts(packet, h264CodecCtx->time_base, videoStream->time_base);
 
         auto ptsMs = packet->pts * av_q2d(videoStream->time_base) * 1000;
         auto dtsMs = packet->dts * av_q2d(videoStream->time_base) * 1000;
-         std::cout << "video index: " << srcFrame->pts
-        << " video ptsMs: " << ptsMs << std::endl;
+        MOGIC_DLOG("video index: %d ptsMs: %d", srcFrame->pts, ptsMs);
         // m_avPacket.pos = -1;
         av_interleaved_write_frame(ofmtCtx, packet);
-        //        av_write_frame(ofmtCtx, packet);
         // av_packet_unref(m_avPacket);
     }
     return ret;

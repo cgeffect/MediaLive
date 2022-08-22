@@ -16,17 +16,18 @@ extern "C" {
 }
 
 namespace mogic {
-class RTMPPush {
+class RTMPPushLocal {
 public:
     int initRTMP(const char *outPath, const char *filePath);
     int pushPacket(AVPacket *pkt);
     void stopPush();
+
 private:
     int videoIndex = -1;
     int frameIndex = 0;
     int audioIndex = -1;
     int pcmIndex = 0;
-    //Input AVFormatContext and Output AVFormatContext
+    // Input AVFormatContext and Output AVFormatContext
     AVFormatContext *ifmtCtx = NULL, *ofmtCtx = NULL;
     AVOutputFormat *ofmt = NULL;
     int64_t startTime = 0;
@@ -36,9 +37,8 @@ private:
     int writerPacket(AVPacket pkt);
     int writerTrailer();
     void stop();
-    
-    static int interrupt_cb(void *ctx);
 
+    static int interrupt_cb(void *ctx);
 };
-}
+} // namespace mogic
 #endif /* RTMPPush_hpp */

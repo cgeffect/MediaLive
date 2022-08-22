@@ -12,11 +12,11 @@
 #include <libavutil/time.h>
 #import "StreamerViewController.h"
 #import "ReceiverViewController.h"
-#import "PullRTMP.h"
+#import "RTMPControl.h"
 
 @interface StreamPushController ()
 {
-    PullRTMP *_pull;
+    RTMPControl *_pull;
 }
 @property (strong, nonatomic) NSString *output;
 
@@ -27,7 +27,7 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     _output = @"rtmp://172.16.184.26:1935/live/livestream";
-    _pull = [[PullRTMP alloc] init];
+    _pull = [[RTMPControl alloc] init];
 }
 //推流
 - (IBAction)streamer:(id)sender {
@@ -50,7 +50,7 @@
 //推流本地文件
 - (IBAction)rtmp:(id)sender {
     dispatch_async(dispatch_get_global_queue(0, 0), ^{
-        PullRTMP *_pull = [[PullRTMP alloc] init];
+        RTMPControl *_pull = [[RTMPControl alloc] init];
         [_pull push];
     });
 }
@@ -58,7 +58,7 @@
 //实时解码推流音视频
 - (IBAction)rtmplive:(id)sender {
     dispatch_async(dispatch_get_global_queue(0, 0), ^{
-        PullRTMP *_pull = [[PullRTMP alloc] init];
+        RTMPControl *_pull = [[RTMPControl alloc] init];
         [_pull pushLive];
     });
 
