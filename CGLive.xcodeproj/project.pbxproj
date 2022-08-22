@@ -20,6 +20,8 @@
 		96EF6A3128B334A8003FD790 /* cuc_ieschool.flv in Resources */ = {isa = PBXBuildFile; fileRef = 96EF6A3028B334A8003FD790 /* cuc_ieschool.flv */; };
 		96EF6A3328B334D2003FD790 /* simplest_librtmp_sendflv.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 96EF6A3228B334D2003FD790 /* simplest_librtmp_sendflv.cpp */; };
 		96EF6AD128B35B6F003FD790 /* simplest_librtmp_receive.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 96EF6AD028B35B6F003FD790 /* simplest_librtmp_receive.cpp */; };
+		96EF6AD828B3613F003FD790 /* LivePush.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 96EF6AD628B3613F003FD790 /* LivePush.cpp */; };
+		96EF6ADB28B36146003FD790 /* LivePlayer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 96EF6AD928B36146003FD790 /* LivePlayer.cpp */; };
 		E5C19564265DDB95003AC764 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = E5C19563265DDB95003AC764 /* AppDelegate.m */; };
 		E5C1956A265DDB95003AC764 /* CGLiveController.m in Sources */ = {isa = PBXBuildFile; fileRef = E5C19569265DDB95003AC764 /* CGLiveController.m */; };
 		E5C1956F265DDB97003AC764 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = E5C1956E265DDB97003AC764 /* Assets.xcassets */; };
@@ -89,6 +91,10 @@
 		96EF6ACC28B3547C003FD790 /* simplest_librtmp_sendflv.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = simplest_librtmp_sendflv.h; sourceTree = "<group>"; };
 		96EF6ACF28B357D6003FD790 /* simplest_librtmp_receive.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = simplest_librtmp_receive.h; sourceTree = "<group>"; };
 		96EF6AD028B35B6F003FD790 /* simplest_librtmp_receive.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = simplest_librtmp_receive.cpp; sourceTree = "<group>"; };
+		96EF6AD628B3613F003FD790 /* LivePush.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = LivePush.cpp; sourceTree = "<group>"; };
+		96EF6AD728B3613F003FD790 /* LivePush.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = LivePush.hpp; sourceTree = "<group>"; };
+		96EF6AD928B36146003FD790 /* LivePlayer.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = LivePlayer.cpp; sourceTree = "<group>"; };
+		96EF6ADA28B36146003FD790 /* LivePlayer.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = LivePlayer.hpp; sourceTree = "<group>"; };
 		E5C1955F265DDB95003AC764 /* CGLive.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = CGLive.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		E5C19562265DDB95003AC764 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
 		E5C19563265DDB95003AC764 /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
@@ -379,6 +385,24 @@
 			path = ffmpegLive;
 			sourceTree = "<group>";
 		};
+		96EF6AD428B3612F003FD790 /* LivePlayer */ = {
+			isa = PBXGroup;
+			children = (
+				96EF6AD928B36146003FD790 /* LivePlayer.cpp */,
+				96EF6ADA28B36146003FD790 /* LivePlayer.hpp */,
+			);
+			path = LivePlayer;
+			sourceTree = "<group>";
+		};
+		96EF6AD528B3612F003FD790 /* LivePush */ = {
+			isa = PBXGroup;
+			children = (
+				96EF6AD628B3613F003FD790 /* LivePush.cpp */,
+				96EF6AD728B3613F003FD790 /* LivePush.hpp */,
+			);
+			path = LivePush;
+			sourceTree = "<group>";
+		};
 		E5C19556265DDB95003AC764 = {
 			isa = PBXGroup;
 			children = (
@@ -399,6 +423,8 @@
 		E5C19561265DDB95003AC764 /* CGLive */ = {
 			isa = PBXGroup;
 			children = (
+				96EF6AD428B3612F003FD790 /* LivePlayer */,
+				96EF6AD528B3612F003FD790 /* LivePush */,
 				E5FE972C265FB3B000548BB1 /* lib */,
 				E5FE96F5265FB37E00548BB1 /* RTMPEngine */,
 				E5C19562265DDB95003AC764 /* AppDelegate.h */,
@@ -912,6 +938,7 @@
 				96C4EA0F28470121001A85BD /* FFAVDemuxer.cpp in Sources */,
 				9655DDCD273C082700491380 /* AVVideoDecoderFF.cpp in Sources */,
 				E5C1956A265DDB95003AC764 /* CGLiveController.m in Sources */,
+				96EF6ADB28B36146003FD790 /* LivePlayer.cpp in Sources */,
 				E5FE971F265FB37E00548BB1 /* RTMPViewController.m in Sources */,
 				E5FE97ED265FB44100548BB1 /* CCVideoEncoder.m in Sources */,
 				E5FE972A265FB37E00548BB1 /* LiveProducterThread.cpp in Sources */,
@@ -921,6 +948,7 @@
 				E5FE97EC265FB44100548BB1 /* CCCaptureManager.m in Sources */,
 				96EF6AD128B35B6F003FD790 /* simplest_librtmp_receive.cpp in Sources */,
 				E5C19564265DDB95003AC764 /* AppDelegate.m in Sources */,
+				96EF6AD828B3613F003FD790 /* LivePush.cpp in Sources */,
 				9655DDD0273C085400491380 /* RTMPControl.mm in Sources */,
 				E5FE97F0265FB44100548BB1 /* CCAudioDecoder.m in Sources */,
 				96365FAC283F600D007E8A96 /* RTMPPushLocal.cpp in Sources */,
