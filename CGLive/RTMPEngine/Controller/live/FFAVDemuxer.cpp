@@ -75,27 +75,19 @@ int FFAVDemuxer::loadResource(const char *inPath) {
     {
         AVStream *in_stream = ifmt_ctx->streams[i];
         if (AVMEDIA_TYPE_AUDIO == in_stream->codecpar->codec_type) {
+            aStream = in_stream;
             printf("----- Audio info:\n");
             // index: 每个流成分在ffmpeg解复用分析后都有唯一的index作为标识
             printf("stream_index:%d\n", in_stream->index);
             // sample_rate: 音频编解码器的采样率，单位为Hz
             printf("samplerate:%dHz\n", in_stream->codecpar->sample_rate);
             // codecpar->format: 音频采样格式
-            if (AV_SAMPLE_FMT_FLTP == in_stream->codecpar->format) {
-                printf("sampleformat:AV_SAMPLE_FMT_FLTP\n");
-            } else if (AV_SAMPLE_FMT_S16P == in_stream->codecpar->format) {
-                printf("sampleformat:AV_SAMPLE_FMT_S16P\n");
-            }
+            const char *fmt_name = av_get_sample_fmt_name((AVSampleFormat)in_stream->codecpar->format);
+            printf("audio fmt_name:%s\n", fmt_name);
             // channels: 音频信道数目
             printf("channel number:%d\n", in_stream->codecpar->channels);
-            // codec_id: 音频压缩编码格式
-            if (AV_CODEC_ID_AAC == in_stream->codecpar->codec_id) {
-                printf("audio codec:AAC\n");
-            } else if (AV_CODEC_ID_MP3 == in_stream->codecpar->codec_id) {
-                printf("audio codec:MP3\n");
-            } else {
-                printf("audio codec_id:%d\n", in_stream->codecpar->codec_id);
-            }
+            const char * codec_name = avcodec_get_name(in_stream->codecpar->codec_id);
+            printf("audio codec_name:%s\n", codec_name);
             // 音频总时长，单位为秒。注意如果把单位放大为毫秒或者微妙，音频总时长跟视频总时长不一定相等的
             if(in_stream->duration != AV_NOPTS_VALUE) {
                 int duration_audio = (in_stream->duration) * av_q2d(in_stream->time_base);
@@ -140,21 +132,23 @@ int FFAVDemuxer::loadResource(const char *inPath) {
     return 0;
 }
 
+/*
+ ffmpeg解码获得的AVPacket只包含了视频压缩数据，并没有包含相关的解码信息（比如：h264的sps pps头信息，AAC的adts头信息）
+ */
 AVPacket *FFAVDemuxer::demuxerPacket() {
     int ret = 0;
-    printf("\n-----av_read_frame start\n");
     ret = av_read_frame(ifmt_ctx, pkt);
     if (ret < 0) {
         printf("av_read_frame end\n");
     }
 
     if (pkt->stream_index == audioindex) {
-        printf("audio pts: %lld\n", pkt->pts);
-        printf("audio dts: %lld\n", pkt->dts);
-        printf("audio size: %d\n", pkt->size);
-        printf("audio pos: %lld\n", pkt->pos);
-        printf("audio duration: %lf\n\n",
-               pkt->duration * av_q2d(ifmt_ctx->streams[audioindex]->time_base));
+//        printf("\n-----av_read_frame start\n");
+//        printf("audio pts: %lld ", pkt->pts);
+//        printf("audio dts: %lld ", pkt->dts);
+//        printf("audio size: %d ", pkt->size);
+//        printf("audio pos: %lld ", pkt->pos);
+//        printf("audio duration: %lf\n\n", pkt->duration * av_q2d(ifmt_ctx->streams[audioindex]->time_base));
     } else if (pkt->stream_index == videoindex) {
         printf("video pts: %lld\n", pkt->pts);
         printf("video dts: %lld\n", pkt->dts);

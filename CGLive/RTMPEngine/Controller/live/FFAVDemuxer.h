@@ -23,9 +23,12 @@ public:
     AVPacket *demuxerPacket();
     void freePacket();
     void stopDemux();
+    AVStream *aStream;
     
 private:
     AVFormatContext *ifmt_ctx = NULL;           // 输入文件的demux
+    AVCodecContext *codecContext;
+    
     AVPacket *pkt = nullptr;
     int videoindex = -1;        // 视频索引
     int audioindex = -1;        // 音频索引

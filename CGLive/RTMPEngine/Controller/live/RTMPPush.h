@@ -36,6 +36,9 @@ private:
     int writerPacket(AVPacket pkt);
     int writerTrailer();
     void stop();
+    
+    static int interrupt_cb(void *ctx);
+
 };
 }
 #endif /* RTMPPush_hpp */

@@ -9,7 +9,17 @@
 #include "MogicDefines.h"
 
 namespace mogic {
-
+/* avio_open2函数的返回值大于等于0，则将 isConnected变量设置为true，代表其已经成功地打开了文件输出通道。 唯一需要注意的一点是，需要配置一个超时回调函数进去，这个回调函 数主要是给FFmpeg的协议层用的，在实现这个函数的时候，返回1则代 表结束I/O操作，返回0则代表继续I/O操作 */
+int RTMPPush::interrupt_cb(void *ctx) { // 超时回调函数
+//    LiveVideoPublisher *publisher = (LiveVideoPublisher *)ctx;
+//    long diff = platform_4_live::getCurrentTimeMills() - publisher->latestFrameTime;
+//    if (diff > publisher->publishTimeout) {
+////        int queueSize = LivePacketPool::GetInstance()->getRecordingVideoPacketQueueSize();
+//        printf("LiveVideoPublisher::interrupt_cb callback time out ... queue size:%ld\n", diff);
+//        return 1; // 返回 1 则代表结束 I/O 操作
+//    }
+    return 0;
+}
 int RTMPPush::initRTMP(const char *outPath, const char *filePath) {
     this->outPath = outPath;
     int ret;
@@ -89,15 +99,17 @@ int RTMPPush::initRTMP(const char *outPath, const char *filePath) {
     }
     
     av_dump_format(ofmtCtx, 0, outPath, 1);
-    //Open output URL
+    
+    //打开连接通道
     if (!(ofmt->flags & AVFMT_NOFILE)) {
         AVDictionary *format_opts = NULL;
         av_dict_set(&format_opts, "rw_timeout",  "1000000", 0); //设置超时时间,单位mcs
-        avio_open2( &ofmtCtx->pb, outPath , AVIO_FLAG_WRITE , NULL , &format_opts);
-//        ret = avio_open(&ofmtCtx->pb, outPath, AVIO_FLAG_WRITE);
+        
+        AVIOInterruptCB int_cb = { interrupt_cb, this};
+        ofmtCtx->interrupt_callback = int_cb;
+        int ret = avio_open2(&ofmtCtx->pb, outPath, AVIO_FLAG_WRITE, &ofmtCtx->interrupt_callback, &format_opts);
         if (ret < 0) {
-            MOGIC_DLOG( "Could not open output URL '%s'", outPath);
-            stop();
+            printf("Could not open '%s': %s\n", outPath, av_err2str(ret));
             return -1;
         }
     }

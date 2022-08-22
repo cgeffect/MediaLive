@@ -46,11 +46,22 @@
         [_pull loadPath];
     });
 }
+
+//推流本地文件
 - (IBAction)rtmp:(id)sender {
     dispatch_async(dispatch_get_global_queue(0, 0), ^{
         PullRTMP *_pull = [[PullRTMP alloc] init];
         [_pull push];
     });
+}
+
+//实时解码推流音视频
+- (IBAction)rtmplive:(id)sender {
+    dispatch_async(dispatch_get_global_queue(0, 0), ^{
+        PullRTMP *_pull = [[PullRTMP alloc] init];
+        [_pull pushLive];
+    });
+
 }
 
 //推流
