@@ -8,3 +8,6 @@
 3. 日志   tail -f ./objs/srs.log
 
 功能待完善, coding...
+
+https://maxwellqi.github.io/ios-live-librtmp/
+https://github.com/iOSSinger/SGLivingPublisher

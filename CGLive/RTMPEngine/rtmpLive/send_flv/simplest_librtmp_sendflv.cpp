@@ -21,7 +21,10 @@
 #endif
 #include "rtmp.h"
 
+#include "LivePush.hpp"
 
+//flv 网络传输需要大端存储模式, 内存中读取的是小端存储, 要从小端转为大端
+//https://blog.csdn.net/y_z_hyangmo/article/details/79208275
 //#include "rtmp_sys.h"
 #include "rtmplog.h"
 #include "simplest_librtmp_sendflv.h"
@@ -34,7 +37,7 @@
 namespace rtmp {
 /*read 1 byte*/
 int ReadU8(uint32_t *u8,FILE*fp){
-	if(fread(u8,1,1,fp)!=1)
+	if(fread(u8,1,1,fp)!=1)//第一个1是每次读几个字节, 第二个1是读几次
 		return 0;
 	return 1;
 }
@@ -94,7 +97,7 @@ void CleanupSockets()
 }
 
 //Publish using RTMP_SendPacket()
-int publish_using_packet(char* argv){
+int publish_using_packet(char* flvFile){
 	RTMP *rtmp=NULL;			
 	RTMPPacket *packet=NULL;
 	uint32_t start_time=0;
@@ -112,7 +115,7 @@ int publish_using_packet(char* argv){
 	uint32_t streamid=0;			
 
 	FILE*fp=NULL;
-	fp=fopen(argv,"rb");
+	fp=fopen(flvFile,"rb");
 	if (!fp){
 		printf("Open File Error.\n");
 		CleanupSockets();
@@ -263,7 +266,7 @@ int publish_using_packet(char* argv){
 }
 
 //Publish using RTMP_Write()
-int publish_using_write(){
+int publish_using_write(char *file){
 	uint32_t start_time=0;
 	uint32_t now_time=0;
 	uint32_t pre_frame_time=0;
@@ -279,7 +282,7 @@ int publish_using_write(){
 	RTMP *rtmp=NULL;			
 	
 	FILE*fp=NULL;
-	fp=fopen("cuc_ieschool.flv","rb");
+	fp=fopen(file,"rb");
 	if (!fp){
 		printf("Open File Error.\n");
 		CleanupSockets();
@@ -299,7 +302,7 @@ int publish_using_write(){
 	RTMP_Init(rtmp);
 	//set connection timeout,default 30s
 	rtmp->Link.timeout=5;			
-	if(!RTMP_SetupURL(rtmp,"rtmp://172.16.184.26:1935/live/livestream"))
+	if(!RTMP_SetupURL(rtmp, (char *)"rtmp://172.16.184.26:1935/live/livestream"))
 	{
 		RTMP_Log(RTMP_LOGERROR,"SetupURL Err\n");
 		RTMP_Free(rtmp);
@@ -412,9 +415,15 @@ int publish_using_write(){
 }
 }
 
-int send_flv(char* argv){
+int send_flv(char* flvFile){
 	//2 Methods:
-	rtmp::publish_using_packet(argv);
-	//publish_using_write();
+//	rtmp::publish_using_packet(flvFile);
+//    rtmp::publish_using_write(flvFile);
+//    Live::pushUsePacket(flvFile);
+//    Live::pushUseWrite(flvFile);
+
+    Live::LivePush push;
+    push.pushUsePacket(flvFile);
+//    push.pushUseWrite(flvFile);
 	return 0;
 }
