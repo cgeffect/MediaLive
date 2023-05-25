@@ -18,7 +18,7 @@ extern "C" {
 
 //C symbol declarations
 
-int send_flv(char* argv);
+int send_flv(char* flvFile);
 
 //C symbol declarations
 
