@@ -1,0 +1,27 @@
+# Uncomment the next line to define a global platform for your project
+ platform :macos, '13.0'
+
+# 关闭pod签名
+post_install do |installer|
+  installer.generated_projects.each do |project|
+    project.targets.each do |target|
+        target.build_configurations.each do |config|
+            config.build_settings['CODE_SIGN_IDENTITY'] = ''
+            config.build_settings.delete 'IPHONEOS_DEPLOYMENT_TARGET'
+         end
+    end
+  end
+end
+
+install! 'cocoapods', :warn_for_unused_master_specs_repo => false
+
+target 'MediaLive' do
+  # Comment the next line if you don't want to use dynamic frameworks
+  use_frameworks!
+  pod 'ffmpeg-kit-macos-full', '~> 5.1'
+  pod 'SnapKit', '~> 5.6.0'
+  pod 'Masonry', '~> 1.1.0'
+
+  # Pods for MediaLive
+
+end
