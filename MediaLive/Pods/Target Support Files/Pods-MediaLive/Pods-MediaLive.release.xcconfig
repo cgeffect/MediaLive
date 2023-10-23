@@ -1,0 +1,15 @@
+CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = NO
+EMBEDDED_CONTENT_CONTAINS_SWIFT = YES
+FRAMEWORK_SEARCH_PATHS = $(inherited) "${PODS_CONFIGURATION_BUILD_DIR}/Masonry" "${PODS_CONFIGURATION_BUILD_DIR}/SnapKit" "${PODS_ROOT}/ffmpeg-kit-macos-full" "${PODS_XCFRAMEWORKS_BUILD_DIR}/ffmpeg-kit-macos-full"
+GCC_PREPROCESSOR_DEFINITIONS = $(inherited) COCOAPODS=1
+HEADER_SEARCH_PATHS = $(inherited) "${PODS_CONFIGURATION_BUILD_DIR}/Masonry/Masonry.framework/Headers" "${PODS_CONFIGURATION_BUILD_DIR}/SnapKit/SnapKit.framework/Headers"
+LD_RUNPATH_SEARCH_PATHS = $(inherited) /usr/lib/swift '@executable_path/../Frameworks' '@loader_path/Frameworks' "${DT_TOOLCHAIN_DIR}/usr/lib/swift/${PLATFORM_NAME}"
+LIBRARY_SEARCH_PATHS = $(inherited) "${DT_TOOLCHAIN_DIR}/usr/lib/swift/${PLATFORM_NAME}" /usr/lib/swift
+OTHER_LDFLAGS = $(inherited) -l"bz2" -l"c++" -l"iconv" -l"z" -framework "AVFoundation" -framework "AppKit" -framework "AudioToolbox" -framework "CoreAudio" -framework "CoreImage" -framework "CoreMedia" -framework "Foundation" -framework "Masonry" -framework "OpenCL" -framework "OpenGL" -framework "Security" -framework "SnapKit" -framework "VideoToolbox" -framework "ffmpegkit" -framework "libavcodec" -framework "libavdevice" -framework "libavfilter" -framework "libavformat" -framework "libavutil" -framework "libswresample" -framework "libswscale"
+OTHER_SWIFT_FLAGS = $(inherited) -D COCOAPODS
+PODS_BUILD_DIR = ${BUILD_DIR}
+PODS_CONFIGURATION_BUILD_DIR = ${PODS_BUILD_DIR}/$(CONFIGURATION)$(EFFECTIVE_PLATFORM_NAME)
+PODS_PODFILE_DIR_PATH = ${SRCROOT}/.
+PODS_ROOT = ${SRCROOT}/Pods
+PODS_XCFRAMEWORKS_BUILD_DIR = $(PODS_CONFIGURATION_BUILD_DIR)/XCFrameworkIntermediates
+USE_RECURSIVE_SCRIPT_INPUTS_IN_SCRIPT_PHASES = YES
