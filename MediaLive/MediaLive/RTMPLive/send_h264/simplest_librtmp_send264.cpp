@@ -24,7 +24,7 @@ int read_buffer1(unsigned char *buf, int buf_size ){
 	if(!feof(fp_send1)){
 		size_t true_size = fread(buf,1,buf_size,fp_send1);
 		return (int)true_size;
-	}else{
+	} else {
 		return -1;
 	}
 }
@@ -36,13 +36,13 @@ void librtmp_send_h264(char* argv)
 	//初始化并连接到服务器
     //192.168.61.136
     //192.168.0.5
-	RTMP264_Connect("rtmp://172.16.184.26:1935/live/livestream");
+	int ret = RTMP264_Connect("rtmp://172.16.184.26:1935/live/livestream");
 	
 	//发送
-	RTMP264_Send(read_buffer1);
+	int res = RTMP264_Send(read_buffer1);
 
 	//断开连接并释放相关资源
-	RTMP264_Close();
+//	RTMP264_Close();
 
 }
 

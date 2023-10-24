@@ -26,7 +26,7 @@
 //flv 网络传输需要大端存储模式, 内存中读取的是小端存储, 要从小端转为大端
 //https://blog.csdn.net/y_z_hyangmo/article/details/79208275
 //#include "rtmp_sys.h"
-#include "rtmplog.h"
+#include "log.h"
 #include "simplest_librtmp_sendflv.h"
 #define HTON16(x)  ((x>>8&0xff)|(x<<8&0xff00))
 #define HTON24(x)  ((x>>16&0xff)|(x<<16&0xff0000)|(x&0xff00))

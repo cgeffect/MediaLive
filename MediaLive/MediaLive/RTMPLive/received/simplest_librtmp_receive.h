@@ -1,13 +1,12 @@
 //
-//  simplest_librtmp_sendflv.h
+//  simplest_librtmp_receive.h
 //  CGLive
 //
 //  Created by Jason on 2022/8/22.
 //
 
-#ifndef simplest_librtmp_sendflv_h
-#define simplest_librtmp_sendflv_h
-
+#ifndef simplest_librtmp_receive_h
+#define simplest_librtmp_receive_h
 
 #ifdef __APPLE__
 
@@ -18,7 +17,7 @@ extern "C" {
 
 //C symbol declarations
 
-int librtmp_send_flv(char* flvFile);
+int received_flv1(char* argv);
 
 //C symbol declarations
 
@@ -29,4 +28,4 @@ int librtmp_send_flv(char* flvFile);
 
 #endif
 
-#endif /* simplest_librtmp_sendflv_h */
+#endif /* simplest_librtmp_receive_h */

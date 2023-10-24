@@ -30,7 +30,7 @@
     
     dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1 * NSEC_PER_SEC)), dispatch_get_global_queue(0, DISPATCH_QUEUE_PRIORITY_DEFAULT), ^{
         NSString* inPathflv = [[NSBundle mainBundle] pathForResource:@"source.200kbps.768x320" ofType:@"flv"];
-        send_flv((char *)inPathflv.UTF8String);
+        librtmp_send_flv((char *)inPathflv.UTF8String);
     });
 
     //延迟2秒后在开一个新的子线程执行block中代码
