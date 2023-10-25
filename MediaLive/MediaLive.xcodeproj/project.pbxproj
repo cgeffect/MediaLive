@@ -10,7 +10,6 @@
 		05FA4598B9D928EAA748C9B1 /* Pods_MediaLive.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D25ECB82E9B015B20EE2B8D4 /* Pods_MediaLive.framework */; };
 		963746822AE7BD940046DF05 /* librtmp.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 963746812AE7BD930046DF05 /* librtmp.a */; };
 		9637469C2AE7C3860046DF05 /* simplest_librtmp_receive.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 9637468F2AE7C3860046DF05 /* simplest_librtmp_receive.cpp */; };
-		9637469D2AE7C3860046DF05 /* simplest_librtmp_sendflv.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 963746912AE7C3860046DF05 /* simplest_librtmp_sendflv.cpp */; };
 		9637469E2AE7C3860046DF05 /* cuc_ieschool.flv in Resources */ = {isa = PBXBuildFile; fileRef = 963746932AE7C3860046DF05 /* cuc_ieschool.flv */; };
 		9637469F2AE7C3860046DF05 /* README.md in Resources */ = {isa = PBXBuildFile; fileRef = 963746942AE7C3860046DF05 /* README.md */; };
 		963746A02AE7C3860046DF05 /* librtmp_send264.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 963746962AE7C3860046DF05 /* librtmp_send264.cpp */; };
@@ -19,6 +18,7 @@
 		963746A92AE7C3E80046DF05 /* LivePush.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 963746A42AE7C3E80046DF05 /* LivePush.cpp */; };
 		963746AA2AE7C3E80046DF05 /* LivePlayer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 963746A82AE7C3E80046DF05 /* LivePlayer.cpp */; };
 		963746AC2AE8139A0046DF05 /* source.200kbps.768x320.flv in Resources */ = {isa = PBXBuildFile; fileRef = 963746AB2AE8139A0046DF05 /* source.200kbps.768x320.flv */; };
+		969FA2D02AE8D915000D4B5A /* simplest_librtmp_sendflv.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 969FA2CF2AE8D915000D4B5A /* simplest_librtmp_sendflv.cpp */; };
 		CE746C462AE6C11C00F04F69 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = CE746C452AE6C11C00F04F69 /* AppDelegate.m */; };
 		CE746C492AE6C11C00F04F69 /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CE746C482AE6C11C00F04F69 /* ViewController.m */; };
 		CE746C4B2AE6C11C00F04F69 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = CE746C4A2AE6C11C00F04F69 /* Assets.xcassets */; };
@@ -40,7 +40,6 @@
 		9637468B2AE7BDE50046DF05 /* dhgroups.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = dhgroups.h; sourceTree = "<group>"; };
 		9637468E2AE7C3860046DF05 /* simplest_librtmp_receive.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = simplest_librtmp_receive.h; sourceTree = "<group>"; };
 		9637468F2AE7C3860046DF05 /* simplest_librtmp_receive.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = simplest_librtmp_receive.cpp; sourceTree = "<group>"; };
-		963746912AE7C3860046DF05 /* simplest_librtmp_sendflv.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = simplest_librtmp_sendflv.cpp; sourceTree = "<group>"; };
 		963746922AE7C3860046DF05 /* simplest_librtmp_sendflv.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = simplest_librtmp_sendflv.h; sourceTree = "<group>"; };
 		963746932AE7C3860046DF05 /* cuc_ieschool.flv */ = {isa = PBXFileReference; lastKnownFileType = file; path = cuc_ieschool.flv; sourceTree = "<group>"; };
 		963746942AE7C3860046DF05 /* README.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
@@ -55,6 +54,7 @@
 		963746A72AE7C3E80046DF05 /* LivePlayer.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = LivePlayer.hpp; sourceTree = "<group>"; };
 		963746A82AE7C3E80046DF05 /* LivePlayer.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = LivePlayer.cpp; sourceTree = "<group>"; };
 		963746AB2AE8139A0046DF05 /* source.200kbps.768x320.flv */ = {isa = PBXFileReference; lastKnownFileType = file; path = source.200kbps.768x320.flv; sourceTree = "<group>"; };
+		969FA2CF2AE8D915000D4B5A /* simplest_librtmp_sendflv.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = simplest_librtmp_sendflv.cpp; sourceTree = "<group>"; };
 		9A6786865932137EA76935EE /* Pods-MediaLive.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MediaLive.debug.xcconfig"; path = "Target Support Files/Pods-MediaLive/Pods-MediaLive.debug.xcconfig"; sourceTree = "<group>"; };
 		CE746C412AE6C11C00F04F69 /* MediaLive.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MediaLive.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		CE746C442AE6C11C00F04F69 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
@@ -145,7 +145,7 @@
 		963746902AE7C3860046DF05 /* send_flv */ = {
 			isa = PBXGroup;
 			children = (
-				963746912AE7C3860046DF05 /* simplest_librtmp_sendflv.cpp */,
+				969FA2CF2AE8D915000D4B5A /* simplest_librtmp_sendflv.cpp */,
 				963746922AE7C3860046DF05 /* simplest_librtmp_sendflv.h */,
 			);
 			path = send_flv;
@@ -360,10 +360,10 @@
 				9637469C2AE7C3860046DF05 /* simplest_librtmp_receive.cpp in Sources */,
 				CE746C502AE6C11C00F04F69 /* main.m in Sources */,
 				963746A02AE7C3860046DF05 /* librtmp_send264.cpp in Sources */,
+				969FA2D02AE8D915000D4B5A /* simplest_librtmp_sendflv.cpp in Sources */,
 				CE746C462AE6C11C00F04F69 /* AppDelegate.m in Sources */,
 				963746A92AE7C3E80046DF05 /* LivePush.cpp in Sources */,
 				963746A22AE7C3860046DF05 /* simplest_librtmp_send264.cpp in Sources */,
-				9637469D2AE7C3860046DF05 /* simplest_librtmp_sendflv.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

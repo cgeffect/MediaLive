@@ -48,7 +48,6 @@
 #include <mach/mach_time.h>
 #endif
 
-#include "common.h"
 #include "log.h"
 
 #if   ARCH_AARCH64

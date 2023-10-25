@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2018-2022 Taner Sener
+ * Copyright (c) 2018-2021 Taner Sener
  *
  * This file is part of FFmpegKit.
  *
@@ -65,7 +65,7 @@ extern NSString* const MediaKeyTags;
 /**
  * Returns duration.
  *
- * @return media duration in "seconds.microseconds" format
+ * @return media duration in milliseconds
  */
 - (NSString*)getDuration;
 
@@ -112,53 +112,32 @@ extern NSString* const MediaKeyTags;
 - (NSArray*)getChapters;
 
 /**
- * Returns the property associated with the key.
+ * Returns the media property associated with the key.
  *
- * @return property as string or nil if the key is not found
+ * @return media property as string or nil if the key is not found
  */
 - (NSString*)getStringProperty:(NSString*)key;
 
 /**
- * Returns the property associated with the key.
+ * Returns the media property associated with the key.
  *
- * @return property as number or nil if the key is not found
+ * @return media property as number or nil if the key is not found
  */
 - (NSNumber*)getNumberProperty:(NSString*)key;
 
 /**
- * Returns the property associated with the key.
+ * Returns the media properties associated with the key.
  *
- * @return property as id or nil if the key is not found
+ * @return media properties in a dictionary or nil if the key is not found
 */
-- (id)getProperty:(NSString*)key;
+- (NSDictionary*)getProperties:(NSString*)key;
 
 /**
- * Returns the format property associated with the key.
+ * Returns all media properties.
  *
- * @return format property as string or nil if the key is not found
- */
-- (NSString*)getStringFormatProperty:(NSString*)key;
-
-/**
- * Returns the format property associated with the key.
- *
- * @return format property as number or nil if the key is not found
- */
-- (NSNumber*)getNumberFormatProperty:(NSString*)key;
-
-/**
- * Returns the format property associated with the key.
- *
- * @return format property as id or nil if the key is not found
+ * @return all media properties in a dictionary or nil if no media properties are defined
 */
-- (id)getFormatProperty:(NSString*)key;
-
-/**
- * Returns all format properties defined.
- *
- * @return all format properties in a dictionary or nil if no format properties are defined
-*/
-- (NSDictionary*)getFormatProperties;
+- (NSDictionary*)getMediaProperties;
 
 /**
  * Returns all properties defined.
