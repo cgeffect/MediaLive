@@ -1,10 +1,10 @@
 PODS:
-  - ffmpeg-kit-macos-full (5.1)
+  - ffmpeg-kit-macos-full (4.5.1)
   - Masonry (1.1.0)
   - SnapKit (5.6.0)
 
 DEPENDENCIES:
-  - ffmpeg-kit-macos-full (~> 5.1)
+  - ffmpeg-kit-macos-full (~> 4.4)
   - Masonry (~> 1.1.0)
   - SnapKit (~> 5.6.0)
 
@@ -15,10 +15,10 @@ SPEC REPOS:
     - SnapKit
 
 SPEC CHECKSUMS:
-  ffmpeg-kit-macos-full: c292021070be5472e9c855bd59bd44fa75352c84
+  ffmpeg-kit-macos-full: 8bf0ab8d570a487f9da07d564f6e49bd6f008bac
   Masonry: 678fab65091a9290e40e2832a55e7ab731aad201
   SnapKit: e01d52ebb8ddbc333eefe2132acf85c8227d9c25
 
-PODFILE CHECKSUM: 9e59f0cd35b50428e468e44c015dbd47c86173c6
+PODFILE CHECKSUM: f7d0fc5a376763bbdd12d2b6d306576e489bdd14
 
 COCOAPODS: 1.12.1

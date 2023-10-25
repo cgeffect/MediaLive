@@ -41,7 +41,7 @@ void librtmp_send_h264(char* argv)
 	//发送
 	int res = RTMP264_Send(read_buffer1);
 
-	//断开连接并释放相关资源
+	//断开连接并释放相关资源,RTMP264_Send是异步的操作, 不能立即释放
 //	RTMP264_Close();
 
 }
