@@ -13,6 +13,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 - (void)video_filter_decode:(NSString *)in0 in1:(NSString *)in1 ou:(NSString *)ou;
 
+- (void)video_filter:(NSString *)in0 ou:(NSString *)ou;
 
 @end
 

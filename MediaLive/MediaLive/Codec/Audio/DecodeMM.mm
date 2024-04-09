@@ -17,9 +17,9 @@
 
 }
 
-- (void)run:(NSString *)in0 logo:(NSString *)logo ou:(NSString *)ou {
-//    video_filter1(in0.UTF8String, ou.UTF8String);
-
+- (void)video_filter:(NSString *)in0 ou:(NSString *)ou {
+    video_filter(in0.UTF8String, ou.UTF8String);
 }
+
 
 @end

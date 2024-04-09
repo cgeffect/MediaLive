@@ -45,15 +45,14 @@
 }
 
 - (IBAction)mix_audio:(NSButton *)sender {
-//    {
-//        NSString* inPath1 = [[NSBundle mainBundle] pathForResource:@"48khz-0" ofType:@"aac"];
-//        NSString* inPath2 = [[NSBundle mainBundle] pathForResource:@"48khz-1" ofType:@"aac"];
-//        NSString *flv = [self creatFile:@"received.aac"];
-//        NSLog(@"%@", flv);
-//
-//        DecodeMM *dec = [[DecodeMM alloc] init];
-//        [dec run:inPath1 in1:inPath2 ou:flv];
-//    }
+    {
+        NSString* inPath1 = [[NSBundle mainBundle] pathForResource:@"sintel_480x272_yuv420p" ofType:@"yuv"];
+        NSString *flv = [self creatFile:@"out.yuv"];
+        NSLog(@"%@", flv);
+
+        DecodeMM *dec = [[DecodeMM alloc] init];
+        [dec video_filter:inPath1 ou:flv];
+    }
     {
         NSString* inPath1 = [[NSBundle mainBundle] pathForResource:@"cuc_ieschool" ofType:@"flv"];
         NSString* logo = [[NSBundle mainBundle] pathForResource:@"my_logo" ofType:@"png"];
