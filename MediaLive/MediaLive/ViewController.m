@@ -9,6 +9,7 @@
 #import "simplest_librtmp_send264.h"
 #import "simplest_librtmp_sendflv.h"
 #include "simplest_librtmp_receive.h"
+#import "DecodeMM.h"
 
 //https://github.com/ossrs/librtmp
 
@@ -41,9 +42,31 @@
         NSString* inPathflv = [[NSBundle mainBundle] pathForResource:@"cuc_ieschool" ofType:@"h264"];
         librtmp_send_h264((char *)inPathflv.UTF8String);
     });
-
 }
 
+- (IBAction)mix_audio:(NSButton *)sender {
+//    {
+//        NSString* inPath1 = [[NSBundle mainBundle] pathForResource:@"48khz-0" ofType:@"aac"];
+//        NSString* inPath2 = [[NSBundle mainBundle] pathForResource:@"48khz-1" ofType:@"aac"];
+//        NSString *flv = [self creatFile:@"received.aac"];
+//        NSLog(@"%@", flv);
+//
+//        DecodeMM *dec = [[DecodeMM alloc] init];
+//        [dec run:inPath1 in1:inPath2 ou:flv];
+//    }
+    {
+        NSString* inPath1 = [[NSBundle mainBundle] pathForResource:@"cuc_ieschool" ofType:@"flv"];
+        NSString* logo = [[NSBundle mainBundle] pathForResource:@"my_logo" ofType:@"png"];
+
+        NSLog(@"%@", inPath1);
+        NSString *flv = [self creatFile:@"output.yuv"];
+        NSLog(@"%@", flv);
+
+        DecodeMM *dec = [[DecodeMM alloc] init];
+        [dec video_filter_decode:inPath1 in1:logo ou:flv];
+        
+    }
+}
 - (NSString *)creatFile:(NSString *)fileName {
     NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
     NSString *path = [paths objectAtIndex:0];

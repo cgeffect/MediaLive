@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		05FA4598B9D928EAA748C9B1 /* Pods_MediaLive.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D25ECB82E9B015B20EE2B8D4 /* Pods_MediaLive.framework */; };
+		961EEE582B8F057700470504 /* MediaLive.docc in Sources */ = {isa = PBXBuildFile; fileRef = 961EEE572B8F057700470504 /* MediaLive.docc */; };
 		963746822AE7BD940046DF05 /* librtmp.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 963746812AE7BD930046DF05 /* librtmp.a */; };
 		9637469C2AE7C3860046DF05 /* simplest_librtmp_receive.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 9637468F2AE7C3860046DF05 /* simplest_librtmp_receive.cpp */; };
 		9637469E2AE7C3860046DF05 /* cuc_ieschool.flv in Resources */ = {isa = PBXBuildFile; fileRef = 963746932AE7C3860046DF05 /* cuc_ieschool.flv */; };
@@ -19,6 +20,16 @@
 		963746AA2AE7C3E80046DF05 /* LivePlayer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 963746A82AE7C3E80046DF05 /* LivePlayer.cpp */; };
 		963746AC2AE8139A0046DF05 /* source.200kbps.768x320.flv in Resources */ = {isa = PBXBuildFile; fileRef = 963746AB2AE8139A0046DF05 /* source.200kbps.768x320.flv */; };
 		969FA2D02AE8D915000D4B5A /* simplest_librtmp_sendflv.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 969FA2CF2AE8D915000D4B5A /* simplest_librtmp_sendflv.cpp */; };
+		96F1D6B52BC5322C003CF2F6 /* decode_filter_audio.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 96F1D6B32BC5322C003CF2F6 /* decode_filter_audio.cpp */; };
+		96F1D6B92BC53E27003CF2F6 /* 48khz-1.aac in Resources */ = {isa = PBXBuildFile; fileRef = 96F1D6B62BC53E27003CF2F6 /* 48khz-1.aac */; };
+		96F1D6BA2BC53E27003CF2F6 /* 48khz-0.aac in Resources */ = {isa = PBXBuildFile; fileRef = 96F1D6B72BC53E27003CF2F6 /* 48khz-0.aac */; };
+		96F1D6BB2BC53E27003CF2F6 /* 48khz-0.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 96F1D6B82BC53E27003CF2F6 /* 48khz-0.mp3 */; };
+		96F1D6BE2BC53EE5003CF2F6 /* DecodeMM.mm in Sources */ = {isa = PBXBuildFile; fileRef = 96F1D6BD2BC53EE5003CF2F6 /* DecodeMM.mm */; };
+		96F1D6C02BC541ED003CF2F6 /* out_aac.aac in Resources */ = {isa = PBXBuildFile; fileRef = 96F1D6BF2BC541ED003CF2F6 /* out_aac.aac */; };
+		96F1D6C32BC54F30003CF2F6 /* video_filter.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 96F1D6C12BC54F30003CF2F6 /* video_filter.cpp */; };
+		96F1D6C52BC55028003CF2F6 /* sintel_480x272_yuv420p.yuv in Resources */ = {isa = PBXBuildFile; fileRef = 96F1D6C42BC55028003CF2F6 /* sintel_480x272_yuv420p.yuv */; };
+		96F1D6C82BC55620003CF2F6 /* video_filter_decode.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 96F1D6C62BC55620003CF2F6 /* video_filter_decode.cpp */; };
+		96F1D6CA2BC5911B003CF2F6 /* my_logo.png in Resources */ = {isa = PBXBuildFile; fileRef = 96F1D6C92BC5911A003CF2F6 /* my_logo.png */; };
 		CE746C462AE6C11C00F04F69 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = CE746C452AE6C11C00F04F69 /* AppDelegate.m */; };
 		CE746C492AE6C11C00F04F69 /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CE746C482AE6C11C00F04F69 /* ViewController.m */; };
 		CE746C4B2AE6C11C00F04F69 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = CE746C4A2AE6C11C00F04F69 /* Assets.xcassets */; };
@@ -28,6 +39,7 @@
 
 /* Begin PBXFileReference section */
 		2F6580245C811167E3634ABB /* Pods-MediaLive.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MediaLive.release.xcconfig"; path = "Target Support Files/Pods-MediaLive/Pods-MediaLive.release.xcconfig"; sourceTree = "<group>"; };
+		961EEE572B8F057700470504 /* MediaLive.docc */ = {isa = PBXFileReference; lastKnownFileType = folder.documentationcatalog; path = MediaLive.docc; sourceTree = "<group>"; };
 		963746812AE7BD930046DF05 /* librtmp.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = librtmp.a; sourceTree = "<group>"; };
 		963746832AE7BDA40046DF05 /* amf.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = amf.h; sourceTree = "<group>"; };
 		963746842AE7BDE50046DF05 /* handshake.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = handshake.h; sourceTree = "<group>"; };
@@ -55,6 +67,20 @@
 		963746A82AE7C3E80046DF05 /* LivePlayer.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = LivePlayer.cpp; sourceTree = "<group>"; };
 		963746AB2AE8139A0046DF05 /* source.200kbps.768x320.flv */ = {isa = PBXFileReference; lastKnownFileType = file; path = source.200kbps.768x320.flv; sourceTree = "<group>"; };
 		969FA2CF2AE8D915000D4B5A /* simplest_librtmp_sendflv.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = simplest_librtmp_sendflv.cpp; sourceTree = "<group>"; };
+		96F1D6B32BC5322C003CF2F6 /* decode_filter_audio.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = decode_filter_audio.cpp; sourceTree = "<group>"; };
+		96F1D6B42BC5322C003CF2F6 /* decode_filter_audio.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = decode_filter_audio.hpp; sourceTree = "<group>"; };
+		96F1D6B62BC53E27003CF2F6 /* 48khz-1.aac */ = {isa = PBXFileReference; lastKnownFileType = file; path = "48khz-1.aac"; sourceTree = "<group>"; };
+		96F1D6B72BC53E27003CF2F6 /* 48khz-0.aac */ = {isa = PBXFileReference; lastKnownFileType = file; path = "48khz-0.aac"; sourceTree = "<group>"; };
+		96F1D6B82BC53E27003CF2F6 /* 48khz-0.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = "48khz-0.mp3"; sourceTree = "<group>"; };
+		96F1D6BC2BC53EE5003CF2F6 /* DecodeMM.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DecodeMM.h; sourceTree = "<group>"; };
+		96F1D6BD2BC53EE5003CF2F6 /* DecodeMM.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = DecodeMM.mm; sourceTree = "<group>"; };
+		96F1D6BF2BC541ED003CF2F6 /* out_aac.aac */ = {isa = PBXFileReference; lastKnownFileType = file; path = out_aac.aac; sourceTree = "<group>"; };
+		96F1D6C12BC54F30003CF2F6 /* video_filter.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = video_filter.cpp; sourceTree = "<group>"; };
+		96F1D6C22BC54F30003CF2F6 /* video_filter.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = video_filter.hpp; sourceTree = "<group>"; };
+		96F1D6C42BC55028003CF2F6 /* sintel_480x272_yuv420p.yuv */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = sintel_480x272_yuv420p.yuv; sourceTree = "<group>"; };
+		96F1D6C62BC55620003CF2F6 /* video_filter_decode.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = video_filter_decode.cpp; sourceTree = "<group>"; };
+		96F1D6C72BC55620003CF2F6 /* video_filter_decode.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = video_filter_decode.hpp; sourceTree = "<group>"; };
+		96F1D6C92BC5911A003CF2F6 /* my_logo.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = my_logo.png; sourceTree = "<group>"; };
 		9A6786865932137EA76935EE /* Pods-MediaLive.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MediaLive.debug.xcconfig"; path = "Target Support Files/Pods-MediaLive/Pods-MediaLive.debug.xcconfig"; sourceTree = "<group>"; };
 		CE746C412AE6C11C00F04F69 /* MediaLive.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MediaLive.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		CE746C442AE6C11C00F04F69 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
@@ -184,11 +210,40 @@
 		969FA2B42AE820B3000D4B5A /* doc */ = {
 			isa = PBXGroup;
 			children = (
+				96F1D6C92BC5911A003CF2F6 /* my_logo.png */,
+				96F1D6C42BC55028003CF2F6 /* sintel_480x272_yuv420p.yuv */,
+				96F1D6BF2BC541ED003CF2F6 /* out_aac.aac */,
+				96F1D6B72BC53E27003CF2F6 /* 48khz-0.aac */,
+				96F1D6B82BC53E27003CF2F6 /* 48khz-0.mp3 */,
+				96F1D6B62BC53E27003CF2F6 /* 48khz-1.aac */,
 				963746932AE7C3860046DF05 /* cuc_ieschool.flv */,
 				963746972AE7C3860046DF05 /* cuc_ieschool.h264 */,
 				963746AB2AE8139A0046DF05 /* source.200kbps.768x320.flv */,
 			);
 			path = doc;
+			sourceTree = "<group>";
+		};
+		96F1D6B12BC53216003CF2F6 /* Audio */ = {
+			isa = PBXGroup;
+			children = (
+				96F1D6B32BC5322C003CF2F6 /* decode_filter_audio.cpp */,
+				96F1D6B42BC5322C003CF2F6 /* decode_filter_audio.hpp */,
+				96F1D6C12BC54F30003CF2F6 /* video_filter.cpp */,
+				96F1D6C22BC54F30003CF2F6 /* video_filter.hpp */,
+				96F1D6C62BC55620003CF2F6 /* video_filter_decode.cpp */,
+				96F1D6C72BC55620003CF2F6 /* video_filter_decode.hpp */,
+				96F1D6BC2BC53EE5003CF2F6 /* DecodeMM.h */,
+				96F1D6BD2BC53EE5003CF2F6 /* DecodeMM.mm */,
+			);
+			path = Audio;
+			sourceTree = "<group>";
+		};
+		96F1D6B22BC53216003CF2F6 /* Codec */ = {
+			isa = PBXGroup;
+			children = (
+				96F1D6B12BC53216003CF2F6 /* Audio */,
+			);
+			path = Codec;
 			sourceTree = "<group>";
 		};
 		B021CDCF59371C255B62B040 /* Pods */ = {
@@ -221,6 +276,7 @@
 		CE746C432AE6C11C00F04F69 /* MediaLive */ = {
 			isa = PBXGroup;
 			children = (
+				96F1D6B22BC53216003CF2F6 /* Codec */,
 				969FA2B42AE820B3000D4B5A /* doc */,
 				963746A62AE7C3E80046DF05 /* LivePlayer */,
 				963746A32AE7C3E80046DF05 /* LivePush */,
@@ -228,6 +284,7 @@
 				9637467E2AE7BD930046DF05 /* librtmp */,
 				CE746C442AE6C11C00F04F69 /* AppDelegate.h */,
 				CE746C452AE6C11C00F04F69 /* AppDelegate.m */,
+				961EEE572B8F057700470504 /* MediaLive.docc */,
 				CE746C472AE6C11C00F04F69 /* ViewController.h */,
 				CE746C482AE6C11C00F04F69 /* ViewController.m */,
 				CE746C4A2AE6C11C00F04F69 /* Assets.xcassets */,
@@ -297,11 +354,17 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				96F1D6CA2BC5911B003CF2F6 /* my_logo.png in Resources */,
+				96F1D6C02BC541ED003CF2F6 /* out_aac.aac in Resources */,
 				CE746C4B2AE6C11C00F04F69 /* Assets.xcassets in Resources */,
 				CE746C4E2AE6C11C00F04F69 /* Main.storyboard in Resources */,
 				9637469F2AE7C3860046DF05 /* README.md in Resources */,
 				963746AC2AE8139A0046DF05 /* source.200kbps.768x320.flv in Resources */,
+				96F1D6C52BC55028003CF2F6 /* sintel_480x272_yuv420p.yuv in Resources */,
+				96F1D6BB2BC53E27003CF2F6 /* 48khz-0.mp3 in Resources */,
+				96F1D6BA2BC53E27003CF2F6 /* 48khz-0.aac in Resources */,
 				963746A12AE7C3860046DF05 /* cuc_ieschool.h264 in Resources */,
+				96F1D6B92BC53E27003CF2F6 /* 48khz-1.aac in Resources */,
 				9637469E2AE7C3860046DF05 /* cuc_ieschool.flv in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -358,12 +421,17 @@
 				CE746C492AE6C11C00F04F69 /* ViewController.m in Sources */,
 				963746AA2AE7C3E80046DF05 /* LivePlayer.cpp in Sources */,
 				9637469C2AE7C3860046DF05 /* simplest_librtmp_receive.cpp in Sources */,
+				96F1D6C82BC55620003CF2F6 /* video_filter_decode.cpp in Sources */,
+				961EEE582B8F057700470504 /* MediaLive.docc in Sources */,
 				CE746C502AE6C11C00F04F69 /* main.m in Sources */,
 				963746A02AE7C3860046DF05 /* librtmp_send264.cpp in Sources */,
+				96F1D6C32BC54F30003CF2F6 /* video_filter.cpp in Sources */,
 				969FA2D02AE8D915000D4B5A /* simplest_librtmp_sendflv.cpp in Sources */,
 				CE746C462AE6C11C00F04F69 /* AppDelegate.m in Sources */,
 				963746A92AE7C3E80046DF05 /* LivePush.cpp in Sources */,
 				963746A22AE7C3860046DF05 /* simplest_librtmp_send264.cpp in Sources */,
+				96F1D6B52BC5322C003CF2F6 /* decode_filter_audio.cpp in Sources */,
+				96F1D6BE2BC53EE5003CF2F6 /* DecodeMM.mm in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
