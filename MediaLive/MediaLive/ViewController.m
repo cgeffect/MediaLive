@@ -47,7 +47,7 @@
 - (IBAction)mix_audio:(NSButton *)sender {
     {
         NSString* inPath1 = [[NSBundle mainBundle] pathForResource:@"sintel_480x272_yuv420p" ofType:@"yuv"];
-        NSString *flv = [self creatFile:@"out.yuv"];
+        NSString *flv = [self creatFile:@"480_272.yuv"];
         NSLog(@"%@", flv);
 
         DecodeMM *dec = [[DecodeMM alloc] init];
@@ -58,7 +58,7 @@
         NSString* logo = [[NSBundle mainBundle] pathForResource:@"my_logo" ofType:@"png"];
 
         NSLog(@"%@", inPath1);
-        NSString *flv = [self creatFile:@"output.yuv"];
+        NSString *flv = [self creatFile:@"cuc_ieschool.yuv"];
         NSLog(@"%@", flv);
 
         DecodeMM *dec = [[DecodeMM alloc] init];

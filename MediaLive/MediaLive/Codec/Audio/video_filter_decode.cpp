@@ -29,24 +29,7 @@
  */
 #include <stdio.h>
 #include <string>
-#define __STDC_CONSTANT_MACROS
  
-#ifdef _WIN32
-#define snprintf _snprintf
-//Windows
-extern "C"
-{
-#include "libavcodec/avcodec.h"
-#include "libavformat/avformat.h"
-#include "libavfilter/avfiltergraph.h"
-#include "libavfilter/buffersink.h"
-#include "libavfilter/buffersrc.h"
-#include "libavutil/avutil.h"
-#include "libswscale/swscale.h"
-#include "SDL/SDL.h"
-};
-#else
-//Linux...
 #ifdef __cplusplus
 extern "C"
 {
@@ -61,13 +44,7 @@ extern "C"
 #ifdef __cplusplus
 };
 #endif
-#endif
- 
-//Enable SDL?
-#define ENABLE_SDL 0
-//Output YUV data?
-#define ENABLE_YUVFILE 1
- 
+
  
 static AVFormatContext *pFormatCtx;
 static AVCodecContext *pCodecCtx;
@@ -138,9 +115,6 @@ static int init_filters(const char *filters_descr)
     AVFilterInOut *outputs = avfilter_inout_alloc();
     AVFilterInOut *inputs  = avfilter_inout_alloc();
     AVRational time_base = pFormatCtx->streams[video_stream_index]->time_base;
-
-    enum AVPixelFormat pix_fmts[] = { AV_PIX_FMT_YUV420P, AV_PIX_FMT_NONE };
-    AVBufferSinkParams *buffersink_params;
  
     filter_graph = avfilter_graph_alloc();
     if (!outputs || !inputs || !filter_graph) {
@@ -164,12 +138,9 @@ static int init_filters(const char *filters_descr)
         return ret;
     }
  
-    /* buffer video sink: to terminate the filter chain. */
-    buffersink_params = av_buffersink_params_alloc();
-    buffersink_params->pixel_fmts = pix_fmts;
     ret = avfilter_graph_create_filter(&buffersink_ctx, buffersink, "out",
-                                       NULL, buffersink_params, filter_graph);
-    av_free(buffersink_params);
+                                       NULL, NULL, filter_graph);
+
     if (ret < 0) {
         printf("Cannot create buffer sink\n");
         return ret;
@@ -221,27 +192,7 @@ int video_filter_decode(const char *in, const char *in1, const char *output)
 //        goto end;
     }
  
-#if ENABLE_YUVFILE
     FILE *fp_yuv=fopen(output,"wb+");
-#endif
-//#if ENABLE_SDL
-//    SDL_Surface *screen;
-//    SDL_Overlay *bmp;
-//    SDL_Rect rect;
-//    if(SDL_Init(SDL_INIT_VIDEO | SDL_INIT_AUDIO | SDL_INIT_TIMER)) {
-//        printf( "Could not initialize SDL - %s\n", SDL_GetError());
-//        return -1;
-//    }
-//    screen = SDL_SetVideoMode(pCodecCtx->width, pCodecCtx->height, 0, 0);
-//    if(!screen) {
-//        printf("SDL: could not set video mode - exiting\n");
-//        return -1;
-//    }
-//    bmp = SDL_CreateYUVOverlay(pCodecCtx->width, pCodecCtx->height,SDL_YV12_OVERLAY, screen);
-// 
-//    SDL_WM_SetCaption("Simplest FFmpeg Video Filter",NULL);
-//#endif
-// 
     pFrame=av_frame_alloc();
     pFrame_out=av_frame_alloc();
  
@@ -285,7 +236,6 @@ int video_filter_decode(const char *in, const char *in1, const char *output)
                     printf("Process 1 frame!\n");
  
                     if (pFrame_out->format==AV_PIX_FMT_YUV420P) {
-#if ENABLE_YUVFILE
                         //Y, U, V
                         for(int i=0;i<pFrame_out->height;i++){
                             fwrite(pFrame_out->data[0]+pFrame_out->linesize[0]*i,1,pFrame_out->width,fp_yuv);
@@ -296,39 +246,15 @@ int video_filter_decode(const char *in, const char *in1, const char *output)
                         for(int i=0;i<pFrame_out->height/2;i++){
                             fwrite(pFrame_out->data[2]+pFrame_out->linesize[2]*i,1,pFrame_out->width/2,fp_yuv);
                         }
-                        fclose(fp_yuv);
-#endif
-                        
-                        
-//#if ENABLE_SDL
-//                        SDL_LockYUVOverlay(bmp);
-//                        int y_size=pFrame_out->width*pFrame_out->height;
-//                        memcpy(bmp->pixels[0],pFrame_out->data[0],y_size);   //Y
-//                        memcpy(bmp->pixels[2],pFrame_out->data[1],y_size/4); //U
-//                        memcpy(bmp->pixels[1],pFrame_out->data[2],y_size/4); //V
-//                        bmp->pitches[0]=pFrame_out->linesize[0];
-//                        bmp->pitches[2]=pFrame_out->linesize[1];
-//                        bmp->pitches[1]=pFrame_out->linesize[2];
-//                        SDL_UnlockYUVOverlay(bmp);
-//                        rect.x = 0;
-//                        rect.y = 0;
-//                        rect.w = pFrame_out->width;
-//                        rect.h = pFrame_out->height;
-//                        SDL_DisplayYUVOverlay(bmp, &rect);
-//                        //Delay 40ms
-//                        SDL_Delay(40);
-//#endif
                     }
                     av_frame_unref(pFrame_out);
                 }
             }
             av_frame_unref(pFrame);
         }
-//        av_free_packet(&packet);
+        av_packet_unref(&packet);
     }
-#if ENABLE_YUVFILE
     fclose(fp_yuv);
-#endif
  
 end:
     avfilter_graph_free(&filter_graph);

@@ -30,21 +30,7 @@
  */
 #include <stdio.h>
 #include <string>
-#define __STDC_CONSTANT_MACROS
 
-#ifdef _WIN32
-#define snprintf _snprintf
-//Windows
-extern "C"
-{
-#include "libavfilter/avfiltergraph.h"
-#include "libavfilter/buffersink.h"
-#include "libavfilter/buffersrc.h"
-#include "libavutil/avutil.h"
-#include "libavutil/imgutils.h"
-};
-#else
-//Linux...
 #ifdef __cplusplus
 extern "C"
 {
@@ -56,7 +42,6 @@ extern "C"
 #include <libavutil/imgutils.h>
 #ifdef __cplusplus
 };
-#endif
 #endif
 
 //AVERROR_EOF: -541478725
@@ -101,7 +86,6 @@ int video_filter(const char *in, const char *output)
     //const char *filter_descr = "crop=2/3*in_w:2/3*in_h";
 //    const char *filter_descr = "drawbox=x=100:y=100:w=100:h=100:color=pink@0.5";
 //    const char *filter_descr = "drawtext=fontfile=arial.ttf:fontcolor=green:fontsize=30:text='Lei Xiaohua'";
-    
 //    avfilter_register_all();
 
     char args[512];
@@ -110,10 +94,6 @@ int video_filter(const char *in, const char *output)
     const AVFilter *buffersink = avfilter_get_by_name("buffersink");
     AVFilterInOut *outputs = avfilter_inout_alloc();
     AVFilterInOut *inputs  = avfilter_inout_alloc();
-    const enum AVPixelFormat pix_fmts[] = {
-        AV_PIX_FMT_YUV420P,
-        AV_PIX_FMT_NONE };
-    AVBufferSinkParams *buffersink_params;
 
     filter_graph = avfilter_graph_alloc();
 
@@ -128,12 +108,7 @@ int video_filter(const char *in, const char *output)
         return ret;
     }
 
-    /* buffer video sink: to terminate the filter chain. */
-    buffersink_params = av_buffersink_params_alloc();
-    buffersink_params->pixel_fmts = pix_fmts;
-
-    ret = avfilter_graph_create_filter(&buffersink_ctx, buffersink, "out", NULL, buffersink_params, filter_graph);
-    av_free(buffersink_params);
+    ret = avfilter_graph_create_filter(&buffersink_ctx, buffersink, "out", NULL, NULL, filter_graph);
     if (ret < 0) {
         printf("Cannot create buffer sink\n");
         return ret;

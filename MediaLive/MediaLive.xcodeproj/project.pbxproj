@@ -21,11 +21,7 @@
 		963746AC2AE8139A0046DF05 /* source.200kbps.768x320.flv in Resources */ = {isa = PBXBuildFile; fileRef = 963746AB2AE8139A0046DF05 /* source.200kbps.768x320.flv */; };
 		969FA2D02AE8D915000D4B5A /* simplest_librtmp_sendflv.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 969FA2CF2AE8D915000D4B5A /* simplest_librtmp_sendflv.cpp */; };
 		96F1D6B52BC5322C003CF2F6 /* decode_filter_audio.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 96F1D6B32BC5322C003CF2F6 /* decode_filter_audio.cpp */; };
-		96F1D6B92BC53E27003CF2F6 /* 48khz-1.aac in Resources */ = {isa = PBXBuildFile; fileRef = 96F1D6B62BC53E27003CF2F6 /* 48khz-1.aac */; };
-		96F1D6BA2BC53E27003CF2F6 /* 48khz-0.aac in Resources */ = {isa = PBXBuildFile; fileRef = 96F1D6B72BC53E27003CF2F6 /* 48khz-0.aac */; };
-		96F1D6BB2BC53E27003CF2F6 /* 48khz-0.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 96F1D6B82BC53E27003CF2F6 /* 48khz-0.mp3 */; };
 		96F1D6BE2BC53EE5003CF2F6 /* DecodeMM.mm in Sources */ = {isa = PBXBuildFile; fileRef = 96F1D6BD2BC53EE5003CF2F6 /* DecodeMM.mm */; };
-		96F1D6C02BC541ED003CF2F6 /* out_aac.aac in Resources */ = {isa = PBXBuildFile; fileRef = 96F1D6BF2BC541ED003CF2F6 /* out_aac.aac */; };
 		96F1D6C32BC54F30003CF2F6 /* video_filter.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 96F1D6C12BC54F30003CF2F6 /* video_filter.cpp */; };
 		96F1D6C52BC55028003CF2F6 /* sintel_480x272_yuv420p.yuv in Resources */ = {isa = PBXBuildFile; fileRef = 96F1D6C42BC55028003CF2F6 /* sintel_480x272_yuv420p.yuv */; };
 		96F1D6C82BC55620003CF2F6 /* video_filter_decode.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 96F1D6C62BC55620003CF2F6 /* video_filter_decode.cpp */; };
@@ -69,12 +65,8 @@
 		969FA2CF2AE8D915000D4B5A /* simplest_librtmp_sendflv.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = simplest_librtmp_sendflv.cpp; sourceTree = "<group>"; };
 		96F1D6B32BC5322C003CF2F6 /* decode_filter_audio.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = decode_filter_audio.cpp; sourceTree = "<group>"; };
 		96F1D6B42BC5322C003CF2F6 /* decode_filter_audio.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = decode_filter_audio.hpp; sourceTree = "<group>"; };
-		96F1D6B62BC53E27003CF2F6 /* 48khz-1.aac */ = {isa = PBXFileReference; lastKnownFileType = file; path = "48khz-1.aac"; sourceTree = "<group>"; };
-		96F1D6B72BC53E27003CF2F6 /* 48khz-0.aac */ = {isa = PBXFileReference; lastKnownFileType = file; path = "48khz-0.aac"; sourceTree = "<group>"; };
-		96F1D6B82BC53E27003CF2F6 /* 48khz-0.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = "48khz-0.mp3"; sourceTree = "<group>"; };
 		96F1D6BC2BC53EE5003CF2F6 /* DecodeMM.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DecodeMM.h; sourceTree = "<group>"; };
 		96F1D6BD2BC53EE5003CF2F6 /* DecodeMM.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = DecodeMM.mm; sourceTree = "<group>"; };
-		96F1D6BF2BC541ED003CF2F6 /* out_aac.aac */ = {isa = PBXFileReference; lastKnownFileType = file; path = out_aac.aac; sourceTree = "<group>"; };
 		96F1D6C12BC54F30003CF2F6 /* video_filter.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = video_filter.cpp; sourceTree = "<group>"; };
 		96F1D6C22BC54F30003CF2F6 /* video_filter.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = video_filter.hpp; sourceTree = "<group>"; };
 		96F1D6C42BC55028003CF2F6 /* sintel_480x272_yuv420p.yuv */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = sintel_480x272_yuv420p.yuv; sourceTree = "<group>"; };
@@ -212,10 +204,6 @@
 			children = (
 				96F1D6C92BC5911A003CF2F6 /* my_logo.png */,
 				96F1D6C42BC55028003CF2F6 /* sintel_480x272_yuv420p.yuv */,
-				96F1D6BF2BC541ED003CF2F6 /* out_aac.aac */,
-				96F1D6B72BC53E27003CF2F6 /* 48khz-0.aac */,
-				96F1D6B82BC53E27003CF2F6 /* 48khz-0.mp3 */,
-				96F1D6B62BC53E27003CF2F6 /* 48khz-1.aac */,
 				963746932AE7C3860046DF05 /* cuc_ieschool.flv */,
 				963746972AE7C3860046DF05 /* cuc_ieschool.h264 */,
 				963746AB2AE8139A0046DF05 /* source.200kbps.768x320.flv */,
@@ -355,16 +343,12 @@
 			buildActionMask = 2147483647;
 			files = (
 				96F1D6CA2BC5911B003CF2F6 /* my_logo.png in Resources */,
-				96F1D6C02BC541ED003CF2F6 /* out_aac.aac in Resources */,
 				CE746C4B2AE6C11C00F04F69 /* Assets.xcassets in Resources */,
 				CE746C4E2AE6C11C00F04F69 /* Main.storyboard in Resources */,
 				9637469F2AE7C3860046DF05 /* README.md in Resources */,
 				963746AC2AE8139A0046DF05 /* source.200kbps.768x320.flv in Resources */,
 				96F1D6C52BC55028003CF2F6 /* sintel_480x272_yuv420p.yuv in Resources */,
-				96F1D6BB2BC53E27003CF2F6 /* 48khz-0.mp3 in Resources */,
-				96F1D6BA2BC53E27003CF2F6 /* 48khz-0.aac in Resources */,
 				963746A12AE7C3860046DF05 /* cuc_ieschool.h264 in Resources */,
-				96F1D6B92BC53E27003CF2F6 /* 48khz-1.aac in Resources */,
 				9637469E2AE7C3860046DF05 /* cuc_ieschool.flv in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
