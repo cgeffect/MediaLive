@@ -9,7 +9,6 @@
 ```text
 render/encoder-pusher/
 ├── build.sh
-├── push_stream.sh
 ├── start_stream.sh
 ├── stop_stream.sh
 ├── list_streams.sh
@@ -50,17 +49,15 @@ render/encoder-pusher/
 - `build.sh`
   - 模块内单独构建入口（可选，主要用于局部调试）。
 
-- `push_stream.sh`
-  - 启动默认推流任务（单实例入口），自动触发编译。
-
 - `start_stream.sh`
-  - 按 `streamId` 启动独立推流任务并记录 PID/日志到 `state/`。
+  - 按 `streamId` 启动推流任务并记录 PID/日志到 `state/`。
+  - 单流场景下也使用该命令（只传一个 `streamId`）。
 
 - `stop_stream.sh`
   - 停止指定 `streamId` 对应任务。
 
 - `list_streams.sh`
-  - 列出当前 `streamId` 任务运行状态。
+  - 列出当前所有 `streamId` 任务运行状态。
 
 - `CMakeLists.txt`
   - 定义源码编译目标及 FFmpeg 依赖链接。

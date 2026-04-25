@@ -21,7 +21,6 @@
 │   │   ├── src/main.cpp
 │   │   ├── CMakeLists.txt
 │   │   ├── build.sh
-│   │   ├── push_stream.sh
 │   │   ├── start_stream.sh
 │   │   ├── stop_stream.sh
 │   │   └── list_streams.sh
@@ -87,7 +86,7 @@ bash scripts/dev_up.sh
 顺序：
 
 1. 启动 `embedded_server`（静态链接 mk_api）
-2. 启动 `encoder_pusher`（默认 `streamId=stream1`）
+2. 启动 `encoder_pusher`（通过 `start_stream.sh` 启动 `stream1`）
 3. 启动 Web 页面（8080）
 
 访问：
@@ -101,15 +100,9 @@ bash scripts/dev_up.sh
 bash scripts/dev_down.sh
 ```
 
-## 6) 单独启动推流任务（可指定 streamId）
+## 6) 单独启动/管理推流任务（统一 streamId 模式）
 
-默认任务：
-
-```bash
-bash render/encoder-pusher/push_stream.sh --stream-id stream2
-```
-
-多流并发（推荐用管理脚本）：
+单流和多流都使用同一套命令：
 
 ```bash
 bash render/encoder-pusher/start_stream.sh stream2
@@ -123,6 +116,12 @@ bash render/encoder-pusher/stop_stream.sh stream3
 
 - `http://127.0.0.1:8081/live/stream2.live.flv`
 - `http://127.0.0.1:8081/live/stream3.live.flv`
+
+说明：
+
+- `start_stream.sh`：启动指定 `streamId`（单流=只启动一个 streamId）
+- `list_streams.sh`：查看所有流状态
+- `stop_stream.sh`：停止单个流
 
 ## 7) 端口
 
@@ -154,7 +153,5 @@ bash render/encoder-pusher/stop_stream.sh stream3
 下一步你可以继续把“亮带效果”替换成多轨合成、滤镜链、字幕叠加、转场等真实渲染逻辑。
 
 
-
-bash render/encoder-pusher/push_stream.sh --stream-id stream1 --input /绝对路径/xxx.mp4
 
 bash render/encoder-pusher/start_stream.sh stream1 --input /绝对路径/xxx.mp4

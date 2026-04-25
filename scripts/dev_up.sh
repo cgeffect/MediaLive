@@ -17,7 +17,7 @@ fi
 
 bash "${MEDIA_DIR}/run_server.sh"
 sleep 1
-bash "${PUSHER_DIR}/push_stream.sh" --stream-id stream1 --input "${INPUT_VIDEO}"
+bash "${PUSHER_DIR}/start_stream.sh" stream1 --input "${INPUT_VIDEO}"
 
 if [[ -f "${WEB_PID_FILE}" ]] && kill -0 "$(cat "${WEB_PID_FILE}")" >/dev/null 2>&1; then
   echo "[web] already running (pid=$(cat "${WEB_PID_FILE}"))"
@@ -34,5 +34,5 @@ echo "- FLV stream : http://127.0.0.1:8081/live/stream1.live.flv"
 echo ""
 echo "Check logs:"
 echo "- ${MEDIA_DIR}/zlm.log"
-echo "- ${PUSHER_DIR}/pusher.log"
+echo "- ${PUSHER_DIR}/state/stream1.log"
 echo "- ${WEB_LOG}"

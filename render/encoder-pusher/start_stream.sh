@@ -2,13 +2,16 @@
 set -euo pipefail
 
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+ROOT_DIR="$(cd "${SCRIPT_DIR}/../.." && pwd)"
 STATE_DIR="${SCRIPT_DIR}/state"
 mkdir -p "${STATE_DIR}"
-BIN="${SCRIPT_DIR}/build/encoder_pusher"
+TOP_BIN="${ROOT_DIR}/build/render/encoder-pusher/encoder_pusher"
+LOCAL_BIN="${SCRIPT_DIR}/build/encoder_pusher"
+BIN="${TOP_BIN}"
 
 STREAM_ID="${1:-}"
 if [[ -z "${STREAM_ID}" ]]; then
-  echo "Usage: $0 <streamId> [additional push_stream.sh args...]"
+  echo "Usage: $0 <streamId> [encoder_pusher args...]"
   exit 1
 fi
 shift || true
@@ -22,7 +25,24 @@ if [[ -f "${PID_FILE}" ]] && kill -0 "$(cat "${PID_FILE}")" >/dev/null 2>&1; the
 fi
 
 if [[ ! -x "${BIN}" ]]; then
-  bash "${SCRIPT_DIR}/build.sh"
+  BIN="${LOCAL_BIN}"
+fi
+
+if [[ ! -x "${BIN}" ]]; then
+  if [[ -f "${ROOT_DIR}/CMakeLists.txt" ]]; then
+    cmake -S "${ROOT_DIR}" -B "${ROOT_DIR}/build"
+    cmake --build "${ROOT_DIR}/build" -j "$(sysctl -n hw.logicalcpu)"
+  else
+    bash "${SCRIPT_DIR}/build.sh"
+  fi
+fi
+
+if [[ ! -x "${BIN}" ]]; then
+  if [[ -x "${TOP_BIN}" ]]; then
+    BIN="${TOP_BIN}"
+  elif [[ -x "${LOCAL_BIN}" ]]; then
+    BIN="${LOCAL_BIN}"
+  fi
 fi
 
 "${BIN}" --stream-id "${STREAM_ID}" "$@" >"${LOG_FILE}" 2>&1 &

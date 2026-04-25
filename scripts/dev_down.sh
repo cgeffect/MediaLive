@@ -23,7 +23,6 @@ stop_by_pid_file() {
 }
 
 stop_by_pid_file "web" "${ROOT_DIR}/web/web.pid"
-stop_by_pid_file "encoder-pusher" "${ROOT_DIR}/render/encoder-pusher/pusher.pid"
 if [[ -d "${ROOT_DIR}/render/encoder-pusher/state" ]]; then
   for stream_pid in "${ROOT_DIR}/render/encoder-pusher/state/"*.pid; do
     [[ -e "${stream_pid}" ]] || continue
