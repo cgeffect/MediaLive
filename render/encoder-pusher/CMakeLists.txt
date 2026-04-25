@@ -11,12 +11,27 @@ pkg_check_modules(AVUTIL REQUIRED IMPORTED_TARGET libavutil)
 pkg_check_modules(SWSCALE REQUIRED IMPORTED_TARGET libswscale)
 
 add_executable(encoder_pusher
-  src/main.cpp
+    src/app/main.cpp
+    src/core/task_config.cpp
+    src/core/task_manager.cpp
+    src/pipeline/frame_renderer.cpp
+    src/pipeline/frame_render_pusher.cpp
+    src/pipeline/pipeline_context.cpp
+    src/pipeline/ffmpeg_utils.cpp
+    src/pipeline/input_initializer.cpp
+    src/pipeline/output_initializer.cpp
+    src/pipeline/video_processor.cpp
+    src/pipeline/audio_processor.cpp
+)
+
+target_include_directories(encoder_pusher PRIVATE
+    src/core
+    src/pipeline
 )
 
 target_link_libraries(encoder_pusher PRIVATE
-  PkgConfig::AVFORMAT
-  PkgConfig::AVCODEC
-  PkgConfig::AVUTIL
-  PkgConfig::SWSCALE
+    PkgConfig::AVFORMAT
+    PkgConfig::AVCODEC
+    PkgConfig::AVUTIL
+    PkgConfig::SWSCALE
 )
