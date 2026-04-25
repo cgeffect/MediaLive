@@ -1,0 +1,121 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>实时预览播放器</title>
+    <style>
+      body {
+        font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+        margin: 24px;
+        color: #222;
+      }
+      .row {
+        display: flex;
+        gap: 8px;
+        margin-bottom: 12px;
+      }
+      input {
+        width: 520px;
+        padding: 8px;
+      }
+      button {
+        padding: 8px 14px;
+      }
+      video {
+        width: 960px;
+        max-width: 100%;
+        background: #000;
+      }
+      pre {
+        background: #f5f5f5;
+        padding: 10px;
+        max-height: 220px;
+        overflow: auto;
+      }
+    </style>
+  </head>
+  <body>
+    <h2>云端实时预览（HTTP-FLV）</h2>
+
+    <div class="row">
+      <input id="url" value="http://127.0.0.1:8081/live/stream1.live.flv" />
+      <button id="play">播放</button>
+      <button id="stop">停止</button>
+    </div>
+
+    <video id="video" controls autoplay muted></video>
+
+    <h3>日志</h3>
+    <pre id="log"></pre>
+
+    <script src="https://cdn.jsdelivr.net/npm/flv.js@1.6.2/dist/flv.min.js"></script>
+    <script>
+      const logBox = document.getElementById("log");
+      const video = document.getElementById("video");
+      const input = document.getElementById("url");
+      const playBtn = document.getElementById("play");
+      const stopBtn = document.getElementById("stop");
+
+      let player = null;
+
+      function log(msg) {
+        const line = `[${new Date().toLocaleTimeString()}] ${msg}`;
+        logBox.textContent = `${line}\n${logBox.textContent}`;
+      }
+
+      function destroyPlayer() {
+        if (!player) return;
+        player.pause();
+        player.unload();
+        player.detachMediaElement();
+        player.destroy();
+        player = null;
+        log("播放器已销毁");
+      }
+
+      function play() {
+        destroyPlayer();
+
+        if (!window.flvjs || !flvjs.isSupported()) {
+          log("当前浏览器不支持 flv.js");
+          return;
+        }
+
+        const url = input.value.trim();
+        if (!url) {
+          log("请输入拉流地址");
+          return;
+        }
+
+        player = flvjs.createPlayer(
+          {
+            type: "flv",
+            url,
+            isLive: true,
+            hasAudio: true,
+            hasVideo: true,
+          },
+          {
+            enableWorker: false,
+            stashInitialSize: 128,
+            lazyLoad: false,
+          }
+        );
+
+        player.on(flvjs.Events.ERROR, (errorType, errorDetail, errorInfo) => {
+          log(`错误: ${errorType} / ${errorDetail} / ${JSON.stringify(errorInfo)}`);
+        });
+
+        player.attachMediaElement(video);
+        player.load();
+        player.play().catch((e) => log(`play() 失败: ${e.message}`));
+        log(`开始播放: ${url}`);
+      }
+
+      playBtn.addEventListener("click", play);
+      stopBtn.addEventListener("click", destroyPlayer);
+      window.addEventListener("beforeunload", destroyPlayer);
+    </script>
+  </body>
+</html>
