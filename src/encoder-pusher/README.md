@@ -7,7 +7,7 @@
 ## 目录结构
 
 ```text
-render/encoder-pusher/
+src/encoder-pusher/
 ├── build.sh
 ├── start_stream.sh
 ├── stop_stream.sh
@@ -44,7 +44,7 @@ render/encoder-pusher/
 
 - 默认构建方式
   - 从项目根目录执行：`cmake -S . -B build && cmake --build build -j ...`
-  - 产物路径：`build/render/encoder-pusher/encoder_pusher`
+  - 产物路径：`build/src/encoder-pusher/encoder_pusher`
 
 - `build.sh`
   - 模块内单独构建入口（可选，主要用于局部调试）。

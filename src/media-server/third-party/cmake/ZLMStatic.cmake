@@ -14,7 +14,7 @@ set(_ZLM_LIB_JSONCPP "${ZLM_ROOT}/lib/libjsoncpp.a")
 set(_ZLM_INC "${ZLM_ROOT}/include")
 
 if(NOT EXISTS "${_ZLM_LIB}")
-  message(FATAL_ERROR "ZLMediaKit static lib not found: ${_ZLM_LIB}. Run render/third-party/build.sh first.")
+  message(FATAL_ERROR "ZLMediaKit static lib not found: ${_ZLM_LIB}. Run src/third-party/build.sh first.")
 endif()
 
 if(NOT EXISTS "${_ZLM_INC}")

@@ -2,12 +2,12 @@
 set -euo pipefail
 
 ROOT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
-MEDIA_DIR="${ROOT_DIR}/render/media-server"
-PUSHER_DIR="${ROOT_DIR}/render/encoder-pusher"
+MEDIA_DIR="${ROOT_DIR}/src/media-server"
+PUSHER_DIR="${ROOT_DIR}/src/encoder-pusher"
 WEB_DIR="${ROOT_DIR}/web"
 WEB_PID_FILE="${ROOT_DIR}/web/web.pid"
 WEB_LOG="${ROOT_DIR}/web/web.log"
-INPUT_VIDEO="${INPUT_VIDEO:-${ROOT_DIR}/render/encoder-pusher/test.mp4}"
+INPUT_VIDEO="${INPUT_VIDEO:-${ROOT_DIR}/src/encoder-pusher/test.mp4}"
 
 if [[ -f "${ROOT_DIR}/CMakeLists.txt" ]]; then
   echo "[build] building from top-level CMake..."

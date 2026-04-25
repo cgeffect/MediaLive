@@ -3,7 +3,7 @@ set -euo pipefail
 
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 ROOT_DIR="$(cd "${SCRIPT_DIR}/../.." && pwd)"
-THIRD_PARTY_BUILD_SCRIPT="${ROOT_DIR}/render/third-party/build.sh"
+THIRD_PARTY_BUILD_SCRIPT="${ROOT_DIR}/src/third-party/build.sh"
 BUILD_DIR="${SCRIPT_DIR}/build"
 
 bash "${THIRD_PARTY_BUILD_SCRIPT}"

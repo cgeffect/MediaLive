@@ -5,7 +5,7 @@ SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 ROOT_DIR="$(cd "${SCRIPT_DIR}/../.." && pwd)"
 STATE_DIR="${SCRIPT_DIR}/state"
 mkdir -p "${STATE_DIR}"
-TOP_BIN="${ROOT_DIR}/build/render/encoder-pusher/encoder_pusher"
+TOP_BIN="${ROOT_DIR}/build/src/encoder-pusher/encoder_pusher"
 LOCAL_BIN="${SCRIPT_DIR}/build/encoder_pusher"
 BIN="${TOP_BIN}"
 

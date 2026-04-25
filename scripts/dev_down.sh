@@ -23,10 +23,10 @@ stop_by_pid_file() {
 }
 
 stop_by_pid_file "web" "${ROOT_DIR}/web/web.pid"
-if [[ -d "${ROOT_DIR}/render/encoder-pusher/state" ]]; then
-  for stream_pid in "${ROOT_DIR}/render/encoder-pusher/state/"*.pid; do
+if [[ -d "${ROOT_DIR}/src/encoder-pusher/state" ]]; then
+  for stream_pid in "${ROOT_DIR}/src/encoder-pusher/state/"*.pid; do
     [[ -e "${stream_pid}" ]] || continue
     stop_by_pid_file "encoder-pusher-stream" "${stream_pid}"
   done
 fi
-stop_by_pid_file "media-server" "${ROOT_DIR}/render/media-server/zlm.pid"
+stop_by_pid_file "media-server" "${ROOT_DIR}/src/media-server/zlm.pid"
