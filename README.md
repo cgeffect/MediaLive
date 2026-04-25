@@ -55,17 +55,28 @@ bash render/third-party/build.sh
 - `render/third-party/install/zlm/lib/libmk_api.a`
 - `render/third-party/install/zlm/include/*.h`
 
-## 3) 编译两个 C++ 模块
+## 3) 默认构建方式（顶层 CMake）
+
+```bash
+cmake -S . -B build
+cmake --build build -j "$(sysctl -n hw.logicalcpu)"
+```
+
+默认生成：
+
+- `build/render/media-server/embedded_server`
+- `build/render/encoder-pusher/encoder_pusher`
+
+> `scripts/dev_up.sh` 默认会执行顶层构建流程。
+
+## 3.1) 模块内构建（可选）
+
+仅在单模块调试时使用：
 
 ```bash
 bash render/media-server/build.sh
 bash render/encoder-pusher/build.sh
 ```
-
-生成：
-
-- `render/media-server/build/embedded_server`
-- `render/encoder-pusher/build/encoder_pusher`
 
 ## 4) 一键启动完整链路
 
@@ -129,7 +140,7 @@ bash render/encoder-pusher/stop_stream.sh stream3
 
 ## 9) 当前“帧级渲染”能力说明
 
-`render/encoder-pusher/src/main.cpp` 内已实现：
+`render/encoder-pusher/src` 内已实现：
 
 - `TaskManager`：按 `streamId` 管理任务对象
 - 文件输入模式：`decode -> frame render -> encode -> rtmp push`

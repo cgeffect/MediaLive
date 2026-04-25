@@ -8,6 +8,12 @@ WEB_DIR="${ROOT_DIR}/web"
 WEB_PID_FILE="${ROOT_DIR}/web/web.pid"
 WEB_LOG="${ROOT_DIR}/web/web.log"
 
+if [[ -f "${ROOT_DIR}/CMakeLists.txt" ]]; then
+  echo "[build] building from top-level CMake..."
+  cmake -S "${ROOT_DIR}" -B "${ROOT_DIR}/build"
+  cmake --build "${ROOT_DIR}/build" -j "$(sysctl -n hw.logicalcpu)"
+fi
+
 bash "${MEDIA_DIR}/run_server.sh"
 sleep 1
 bash "${PUSHER_DIR}/push_stream.sh" --stream-id stream1

@@ -43,8 +43,12 @@ render/encoder-pusher/
 
 ## 顶层文件职责
 
+- 默认构建方式
+  - 从项目根目录执行：`cmake -S . -B build && cmake --build build -j ...`
+  - 产物路径：`build/render/encoder-pusher/encoder_pusher`
+
 - `build.sh`
-  - CMake 配置并编译 `encoder_pusher` 二进制。
+  - 模块内单独构建入口（可选，主要用于局部调试）。
 
 - `push_stream.sh`
   - 启动默认推流任务（单实例入口），自动触发编译。
