@@ -7,6 +7,7 @@ PUSHER_DIR="${ROOT_DIR}/render/encoder-pusher"
 WEB_DIR="${ROOT_DIR}/web"
 WEB_PID_FILE="${ROOT_DIR}/web/web.pid"
 WEB_LOG="${ROOT_DIR}/web/web.log"
+INPUT_VIDEO="${INPUT_VIDEO:-${ROOT_DIR}/render/encoder-pusher/test.mp4}"
 
 if [[ -f "${ROOT_DIR}/CMakeLists.txt" ]]; then
   echo "[build] building from top-level CMake..."
@@ -16,7 +17,7 @@ fi
 
 bash "${MEDIA_DIR}/run_server.sh"
 sleep 1
-bash "${PUSHER_DIR}/push_stream.sh" --stream-id stream1
+bash "${PUSHER_DIR}/push_stream.sh" --stream-id stream1 --input "${INPUT_VIDEO}"
 
 if [[ -f "${WEB_PID_FILE}" ]] && kill -0 "$(cat "${WEB_PID_FILE}")" >/dev/null 2>&1; then
   echo "[web] already running (pid=$(cat "${WEB_PID_FILE}"))"

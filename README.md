@@ -152,3 +152,9 @@ bash render/encoder-pusher/stop_stream.sh stream3
 - 无输入文件模式：保留 testsrc/sine 命令行兜底，便于快速联调
 
 下一步你可以继续把“亮带效果”替换成多轨合成、滤镜链、字幕叠加、转场等真实渲染逻辑。
+
+
+
+bash render/encoder-pusher/push_stream.sh --stream-id stream1 --input /绝对路径/xxx.mp4
+
+bash render/encoder-pusher/start_stream.sh stream1 --input /绝对路径/xxx.mp4
